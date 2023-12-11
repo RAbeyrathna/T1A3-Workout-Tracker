@@ -1,14 +1,15 @@
 from colored import Fore, Back, Style
 import csv
 
-exercises_file = "exercises.csv"
+exercises_file_path = "exercises.csv"
 
 try:
-    exercises_file = open(exercises_file, "r")
+    with open(exercises_file_path, "r") as exercises_file:
+        pass
     exercises_file.close()
 except FileNotFoundError:
-    exercises_file = open(exercises_file, "w")
-    exercises_file.write("id,exercise_name,default_weight,default_reps,default_sets\n")
+    with open(exercises_file_path, "w") as exercises_file:
+        exercises_file.write("exercise_name,default_weight,default_reps,default_sets\n")
     exercises_file.close()
 
 
@@ -38,6 +39,7 @@ def el_menu():
             print(
                 f"\n{Fore.blue}Displaying all exercises in Exercise Database:{Style.reset}\n"
             )
+            el_display()
         elif user_selection == 2:
             print(f"\n{Fore.blue}Choose an exercise to edit:{Style.reset}\n")
         elif user_selection == 3:
@@ -51,7 +53,24 @@ def el_menu():
 
 
 def el_display():
-    pass
+    with open(exercises_file_path, "r") as exercises_file:
+        csv_reader = csv.reader(exercises_file)
+        header = next(csv_reader)
+        print(
+            f"{Fore.CYAN}{'Exercise':<25}{'Default Weight':<15}{'Default Reps':<15}{'Default Sets':<15}{Style.RESET}"
+        )
+        for row in csv_reader:
+            (
+                exercise_name,
+                default_weight,
+                default_reps,
+                default_sets,
+            ) = row
+            print(
+                f"{Fore.YELLOW}{exercise_name:<25}{default_weight:<15}{default_reps:<15}{default_sets:<15}{Style.RESET}"
+            )
+        print(f"\n{Fore.CYAN}[ END OF LIST ]{Style.reset}\n")
+    exercises_file.close()
 
 
 def el_edit():
