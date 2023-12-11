@@ -1,4 +1,4 @@
-# T1A2 - Portfolio Rahal Abeyrathna
+# T1A3 - Terminal Application Rahal Abeyrathna
 
 A terminal application for the Coder Academy T1A3 assignment.
 
