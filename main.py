@@ -1,5 +1,8 @@
 from colored import Fore, Back, Style
 from workout_templates import wt_menu, wt_display, wt_edit, wt_create
+from workout_entry import we_menu
+from exercise_list import el_menu
+from previous_workouts import pw_menu
 
 print(
     f"{Style.BOLD}{Fore.YELLOW}\nWelcome the the Workout Tracker application. Please select from the following options:{Style.reset}\n"
@@ -32,6 +35,7 @@ def display_menu():
             print(
                 f"\n{Fore.blue}Entering 'Enter Workout Entry' Function...{Style.reset}\n"
             )
+            we_menu()
         elif user_selection == 2:
             print(f"\n{Fore.blue}Entering 'Workout Templates' Menu...{Style.reset}\n")
             wt_menu()
@@ -39,10 +43,12 @@ def display_menu():
             print(
                 f"\n{Fore.blue}Entering 'View Exercise List Database' Function...{Style.reset}\n"
             )
+            el_menu()
         elif user_selection == 4:
             print(
                 f"\n{Fore.blue}Entering 'View Previous Workout Entries' Function...{Style.reset}\n"
             )
+            pw_menu()
     print(f"{Fore.red}\nQuitting the application...{Style.reset}\n")
 
 
