@@ -1,26 +1,32 @@
+from colored import Fore, Back, Style
+
 print(
-    f"Welcome the the Workout Tracker application. Please select from the following options:\n"
+    f"{Style.BOLD}{Fore.YELLOW}\nWelcome the the Workout Tracker application. Please select from the following options:{Style.reset}\n"
 )
 
 
 def display_menu():
     user_selection = ""
     while user_selection != 7:
-        print("[ 1 ] Enter Workout Entry")
-        print("[ 2 ] Create Custom Workout Template")
-        print("[ 3 ] View Existing Workout Templates")
-        print("[ 4 ] Edit Existing Workout Templates")
-        print("[ 5 ] View Exercise List Database")
-        print("[ 6 ] View Previous Workout Entries")
-        print("[ 7 ] Exit the Program")
-        user_selection = input("\nEnter the function you would like to enter: \n")
+        print(f"{Fore.white}[ 1 ] Enter Workout Entry")
+        print(f"[ 2 ] Create Custom Workout Template")
+        print(f"[ 3 ] View Existing Workout Templates")
+        print(f"[ 4 ] Edit Existing Workout Templates")
+        print(f"[ 5 ] View Exercise List Database")
+        print(f"[ 6 ] View Previous Workout Entries")
+        print(f"[ 7 ] Exit the Program{Style.reset}")
+        user_selection = input(
+            f"{Fore.green}\nEnter the function you would like to enter: {Style.reset}\n"
+        )
 
         try:
             user_selection = int(user_selection)
             if user_selection < 1 or user_selection > 7:
                 raise ValueError
         except ValueError:
-            print("\nPlease enter a valid number between 1 and 7: \n")
+            print(
+                f"\n{Fore.red}{Back.white}Please enter a valid number between 1 and 7:{Style.reset}\n"
+            )
 
         if user_selection == 1:
             print("\nEntering 'Enter Workout Entry' Function...\n")
