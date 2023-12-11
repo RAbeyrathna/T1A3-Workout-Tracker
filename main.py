@@ -1,5 +1,5 @@
 from colored import Fore, Back, Style
-from workout_templates import wt_menu, wt_display, wt_edit, wt_create
+from workout_templates import wt_menu
 from workout_entry import we_menu
 from exercise_list import el_menu
 from previous_workouts import pw_menu
