@@ -24,11 +24,11 @@ def display_menu():
 
         try:
             user_selection = int(user_selection)
-            if user_selection < 1 or user_selection > 7:
+            if user_selection < 1 or user_selection > 5:
                 raise ValueError
         except ValueError:
             print(
-                f"\n{Fore.red}Please enter a valid number between 1 and 7:{Style.reset}\n"
+                f"\n{Fore.red}Please enter a valid number between 1 and 5:{Style.reset}\n"
             )
 
         if user_selection == 1:
