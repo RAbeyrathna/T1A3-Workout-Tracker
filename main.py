@@ -8,7 +8,7 @@ print(
 def display_menu():
     user_selection = ""
     while user_selection != 7:
-        print(f"{Fore.white}[ 1 ] Enter Workout Entry")
+        print(f"{Fore.cyan}[ 1 ] Enter Workout Entry")
         print(f"[ 2 ] Create Custom Workout Template")
         print(f"[ 3 ] View Existing Workout Templates")
         print(f"[ 4 ] Edit Existing Workout Templates")
