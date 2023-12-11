@@ -25,22 +25,34 @@ def display_menu():
                 raise ValueError
         except ValueError:
             print(
-                f"\n{Fore.red}{Back.white}Please enter a valid number between 1 and 7:{Style.reset}\n"
+                f"\n{Fore.red}Please enter a valid number between 1 and 7:{Style.reset}\n"
             )
 
         if user_selection == 1:
-            print("\nEntering 'Enter Workout Entry' Function...\n")
+            print(
+                f"\n{Fore.blue}Entering 'Enter Workout Entry' Function...{Style.reset}\n"
+            )
         elif user_selection == 2:
-            print("\nEntering 'Create Custom Workout Template' Function...\n")
+            print(
+                f"\n{Fore.blue}Entering 'Create Custom Workout Template' Function...{Style.reset}\n"
+            )
         elif user_selection == 3:
-            print("\nEntering 'View Existing Workout Templates'...\n")
+            print(
+                f"\n{Fore.blue}Entering 'View Existing Workout Templates'...{Style.reset}\n"
+            )
         elif user_selection == 4:
-            print("\nEntering 'Edit Existing Workout Templates' Function...\n")
+            print(
+                f"\n{Fore.blue}Entering 'Edit Existing Workout Templates' Function...{Style.reset}\n"
+            )
         elif user_selection == 5:
-            print("\nEntering 'View Exercise List Database' Function...\n")
+            print(
+                f"\n{Fore.blue}Entering 'View Exercise List Database' Function...{Style.reset}\n"
+            )
         elif user_selection == 6:
-            print("\nEntering 'View Previous Workout Entries' Function...\n")
-    print("Quitting the application...")
+            print(
+                f"\n{Fore.blue}Entering 'View Previous Workout Entries' Function...{Style.reset}\n"
+            )
+    print(f"{Fore.red}Quitting the application...{Style.reset}")
 
 
 display_menu()
