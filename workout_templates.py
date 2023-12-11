@@ -1,4 +1,5 @@
 from colored import Fore, Back, Style
+from functions import clear_console
 import csv
 
 templates_file = "workout_templates.csv"
@@ -18,6 +19,9 @@ def wt_menu():
     user_selection = ""
     while user_selection != 5:
         print(f"{Style.BOLD}{Fore.yellow} -- Workout Templates Menu --\n")
+        print(
+            f"{Style.BOLD}{Fore.YELLOW}Please select from the following options:{Style.reset}\n"
+        )
         print(f"{Fore.blue}[ 1 ] View Workout Templates")
         print(f"[ 2 ] Edit Workout Templates")
         print(f"[ 3 ] Create New Workout Template")
@@ -32,22 +36,20 @@ def wt_menu():
             if user_selection < 1 or user_selection > 5:
                 raise ValueError
         except ValueError:
+            clear_console()
             print(
-                f"\n{Fore.red}Please enter a valid number between 1 and 5:{Style.reset}\n"
+                f"{Fore.red}Please enter a valid number between 1 and 5:{Style.reset}\n"
             )
 
         if user_selection == 1:
-            print(f"\n{Fore.blue}Displaying workout templates:{Style.reset}\n")
+            clear_console()
         elif user_selection == 2:
-            print(
-                f"\n{Fore.blue}Choose one of the workout templates to edit:{Style.reset}\n"
-            )
+            clear_console()
         elif user_selection == 3:
-            print(f"\n{Fore.blue}Creating new workout template...{Style.reset}\n")
+            clear_console()
         elif user_selection == 4:
-            print(f"\n{Fore.blue}Choose a workout template to delete:{Style.reset}\n")
-
-    print(f"{Fore.red}\nExiting Workout Templates Menu...\n{Style.reset}")
+            clear_console()
+    clear_console()
 
 
 def wt_display():
