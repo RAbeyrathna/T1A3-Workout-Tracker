@@ -4,23 +4,24 @@ import csv
 
 def wt_menu():
     user_selection = ""
-    while user_selection != 4:
+    while user_selection != 5:
         print(f"{Style.BOLD}{Fore.yellow} -- Workout Templates Menu --\n")
         print(f"{Fore.blue}[ 1 ] View Workout Templates")
         print(f"[ 2 ] Edit Workout Templates")
         print(f"[ 3 ] Create New Workout Template")
-        print(f"[ 4 ] Return back to Main Menu{Style.reset}")
+        print(f"[ 4 ] Delete a Workout Template")
+        print(f"[ 5 ] Return back to Main Menu{Style.reset}")
         user_selection = input(
             f"{Fore.green}\nEnter the function you would like to enter: {Style.reset}\n"
         )
 
         try:
             user_selection = int(user_selection)
-            if user_selection < 1 or user_selection > 4:
+            if user_selection < 1 or user_selection > 5:
                 raise ValueError
         except ValueError:
             print(
-                f"\n{Fore.red}Please enter a valid number between 1 and 4:{Style.reset}\n"
+                f"\n{Fore.red}Please enter a valid number between 1 and 5:{Style.reset}\n"
             )
 
         if user_selection == 1:
@@ -31,6 +32,9 @@ def wt_menu():
             )
         elif user_selection == 3:
             print(f"\n{Fore.blue}Creating new workout template...{Style.reset}\n")
+        elif user_selection == 4:
+            print(f"\n{Fore.blue}Choose a workout template to delete:{Style.reset}\n")
+
     print(f"{Fore.red}\nExiting Workout Templates Menu...\n{Style.reset}")
 
 
@@ -43,4 +47,8 @@ def wt_edit():
 
 
 def wt_create():
+    pass
+
+
+def wt_delete():
     pass
