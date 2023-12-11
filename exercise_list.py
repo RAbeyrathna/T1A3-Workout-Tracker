@@ -29,6 +29,7 @@ def el_menu():
         user_selection = input(
             f"{Fore.green}\nEnter the function you would like to enter: {Style.reset}\n"
         )
+        clear_console()
 
         try:
             user_selection = int(user_selection)
@@ -83,7 +84,7 @@ def el_display():
             print(f"\n{Fore.CYAN}[ END OF LIST ]{Style.reset}\n")
         input("Press enter when you would like to return to the exericise list menu:\n")
         close_menu = True
-
+        clear_console()
     exercises_file.close()
     clear_console()
 

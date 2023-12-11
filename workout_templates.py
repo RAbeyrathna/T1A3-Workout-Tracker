@@ -30,6 +30,7 @@ def wt_menu():
         user_selection = input(
             f"{Fore.green}\nEnter the function you would like to enter: {Style.reset}\n"
         )
+        clear_console()
 
         try:
             user_selection = int(user_selection)

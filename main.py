@@ -28,6 +28,7 @@ def display_menu():
         user_selection = input(
             f"{Fore.green}\nEnter the function you would like to enter: {Style.reset}\n"
         )
+        clear_console()
 
         try:
             user_selection = int(user_selection)
@@ -50,7 +51,7 @@ def display_menu():
         elif user_selection == 4:
             clear_console()
             pw_menu()
-    print(f"{Fore.red}\nQuitting the application...{Style.reset}\n")
+    print(f"{Fore.red}Quitting the application...{Style.reset}")
 
 
 display_menu()
