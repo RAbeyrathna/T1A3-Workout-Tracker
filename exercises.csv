@@ -1,0 +1,51 @@
+id,exercise_name,default_weight,default_reps,default_sets
+1,Squats,10,8,3
+2,Push-ups,10,8,3
+3,Deadlifts,10,8,3
+4,Bench Press,10,8,3
+5,Overhead Press,10,8,3
+6,Rows,10,8,3
+7,Plank,10,8,3
+8,Lunges,10,8,3
+9,Bicep Curls,10,8,3
+10,Tricep Dips,10,8,3
+11,Leg Press,10,8,3
+12,Chest Flyes,10,8,3
+13,Lat Pulldowns,10,8,3
+14,Shoulder Press,10,8,3
+15,Leg Curls,10,8,3
+16,Hammer Curls,10,8,3
+17,Tricep Extensions,10,8,3
+18,Calf Raises,10,8,3
+19,Plank Rows,10,8,3
+20,Mountain Climbers,10,8,3
+21,Russian Twists,10,8,3
+22,Box Jumps,10,8,3
+23,Seated Rows,10,8,3
+24,Lateral Raises,10,8,3
+25,Hamstring Curls,10,8,3
+26,Incline Bench Press,10,8,3
+27,Front Squats,10,8,3
+28,Chin-ups,10,8,3
+29,Dumbbell Rows,10,8,3
+30,Leg Extensions,10,8,3
+31,Side Planks,10,8,3
+32,Step-ups,10,8,3
+33,Reverse Flyes,10,8,3
+34,Skull Crushers,10,8,3
+35,Jumping Jacks,10,8,3
+36,Seated Leg Press,10,8,3
+37,Forearm Plank,10,8,3
+38,Barbell Curls,10,8,3
+39,Cable Crunches,10,8,3
+40,Plank to Push-up,10,8,3
+41,Wide Grip Pull-ups,10,8,3
+42,Seated Shoulder Press,10,8,3
+43,Kettlebell Swings,10,8,3
+44,Leg Raises,10,8,3
+45,Cable Rows,10,8,3
+46,Front Raises,10,8,3
+47,Decline Bench Press,10,8,3
+48,Medicine Ball Slams,10,8,3
+49,Reverse Crunches,10,8,3
+50,Bicycle Crunches,10,8,3

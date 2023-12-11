@@ -1,4 +1,15 @@
 from colored import Fore, Back, Style
+import csv
+
+exercises_file = "exercises.csv"
+
+try:
+    exercises_file = open(exercises_file, "r")
+    exercises_file.close()
+except FileNotFoundError:
+    exercises_file = open(exercises_file, "w")
+    exercises_file.write("id,exercise_name,default_weight,default_reps,default_sets\n")
+    exercises_file.close()
 
 
 def el_menu():
