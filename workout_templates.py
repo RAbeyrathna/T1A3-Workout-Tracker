@@ -1,6 +1,18 @@
 from colored import Fore, Back, Style
 import csv
 
+templates_file = "workout_templates.csv"
+
+try:
+    templates_file = open(templates_file, "r")
+    templates_file.close()
+except FileNotFoundError:
+    templates_file = open(templates_file, "w")
+    templates_file.write(
+        "id,template_name,exercise_list,default_weight,default_reps,default_sets\n"
+    )
+    templates_file.close()
+
 
 def wt_menu():
     user_selection = ""

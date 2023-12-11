@@ -1,0 +1,6 @@
+id,template_name,exercise_list,default_weight,default_reps,default_sets
+1,PPL,"Squats,Deadlifts,Bench Press,Rows,Lunges,Tricep Dips,Leg Curls",10,8,3
+2,Upper Body,"Bench Press,Overhead Press,Rows,Bicep Curls,Tricep Extensions,Lateral Raises,Chin-ups",12,10,4
+3,Full Body,"Squats,Deadlifts,Bench Press,Rows,Overhead Press,Bicep Curls,Tricep Dips,Leg Curls",15,12,3
+4,Push/Pull,"Bench Press,Overhead Press,Tricep Dips,Rows,Lateral Raises,Chin-ups,Chest Flyes",14,10,4
+5,Leg Day,"Squats,Deadlifts,Lunges,Leg Press,Hamstring Curls,Calf Raises,Leg Extensions",20,10,3
