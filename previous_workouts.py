@@ -69,7 +69,69 @@ def pw_menu():
 
 
 def pw_display():
-    pass
+    clear_console()
+    user_selection = ""
+    viewing_template = False
+    return_value = len(menu_list) + 1
+    while user_selection != return_value:
+        print(f"{Style.BOLD}{Fore.CYAN}-- Display Workout Logs --{Style.reset}\n")
+        print(
+            f"{Style.BOLD}{Fore.YELLOW}Please select from the following options:{Style.reset}\n"
+        )
+        for index, log in enumerate(menu_list):
+            print(f"[ {index + 1} ] {log}")
+        print(f"[ {return_value} ] Return to Workout History Menu")
+        user_selection = input(
+            f"{Fore.green}\nPlease enter the index of the log you would like to view: {Style.reset}\n"
+        )
+        clear_console()
+
+        try:
+            user_selection = int(user_selection)
+            if user_selection < 1 or user_selection > return_value:
+                raise ValueError
+            if user_selection != return_value:
+                selected_log = menu_list[user_selection - 1]
+                viewing_template = True
+        except ValueError:
+            clear_console()
+            print(
+                f"{Fore.red}Please enter a valid number between 1 and {return_value}:{Style.reset}\n"
+            )
+
+        while viewing_template:
+            clear_console()
+            print(f"{Fore.BLUE}-- Currently viewing: {selected_log} Workout Log --\n")
+            with open(file_path, "r") as file:
+                csv_reader = csv.reader(file)
+                header = next(csv_reader)
+                for row in csv_reader:
+                    (
+                        workout_date,
+                        template_used,
+                        completed_exercises,
+                    ) = row
+                    if row[0] == selected_log:
+                        print(f"{Fore.GREEN}Workout Date: {workout_date}")
+                        print(f"Template Used: {template_used}{Style.reset} \n")
+                        # Convert string into proper dictionary
+                        exercises_dict = eval(completed_exercises)
+                        print(
+                            f"{Fore.CYAN}{'Exercise':<25}{'Working Weight (kg)':<20}{'Working Reps':<15}{'Working Sets':<15}{Style.RESET}"
+                        )
+                        for exercise, info in exercises_dict.items():
+                            working_weight, working_reps, working_sets = info
+                            print(
+                                f"{Fore.YELLOW}{exercise:<25}{working_weight:<20}{working_reps:<15}{working_sets:<15}{Style.RESET}"
+                            )
+                        print("\n")
+                        break
+                    else:
+                        continue
+            file.close()
+            input("Press enter when you would like to return to the previous menu:\n")
+            viewing_template = False
+            clear_console()
 
 
 def pw_delete():

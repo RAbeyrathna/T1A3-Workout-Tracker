@@ -1,1 +1,6 @@
 workout_date,template_used,completed_exercises
+2023-12-11,PPL,"{'Squats': [10, 8, 3], 'Deadlifts': [10, 8, 3], 'Bench Press': [10, 8, 3], 'Rows': [10, 8, 3], 'Lunges': [10, 8, 3], 'Tricep Dips': [10, 8, 3], 'Leg Curls': [10, 8, 3]}"
+2023-12-12,Upper Body,"{'Bench Press': [12, 10, 4], 'Overhead Press': [12, 10, 4], 'Rows': [12, 10, 4], 'Bicep Curls': [12, 10, 4], 'Tricep Extensions': [12, 10, 4], 'Lateral Raises': [12, 10, 4], 'Chin-ups': [12, 10, 4]}"
+2023-12-13,Full Body,"{'Squats': [15, 12, 3], 'Deadlifts': [15, 12, 3], 'Bench Press': [15, 12, 3], 'Rows': [15, 12, 3], 'Overhead Press': [15, 12, 3], 'Bicep Curls': [15, 12, 3], 'Tricep Dips': [15, 12, 3], 'Leg Curls': [15, 12, 3]}"
+2023-12-14,Push/Pull,"{'Bench Press': [14, 10, 4], 'Overhead Press': [14, 10, 4], 'Tricep Dips': [14, 10, 4], 'Rows': [14, 10, 4], 'Lateral Raises': [14, 10, 4], 'Chin-ups': [14, 10, 4], 'Chest Flyes': [14, 10, 4]}"
+2023-12-15,Leg Day,"{'Squats': [20, 10, 3], 'Deadlifts': [20, 10, 3], 'Lunges': [20, 10, 3], 'Leg Press': [20, 10, 3], 'Hamstring Curls': [20, 10, 3], 'Calf Raises': [20, 10, 3], 'Leg Extensions': [20, 10, 3]}"
