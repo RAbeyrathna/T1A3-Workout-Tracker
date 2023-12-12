@@ -170,11 +170,11 @@ def wt_delete():
 
         while delete_loop:
             user_confirmation = input(
-                f"{Style.bold}{Fore.red}Are you sure you would like to delete {selected_routine}? (Type 'YES' to confirm or 'NO' to abort:){Style.reset}\n"
+                f"{Style.bold}{Fore.red}Are you sure you would like to delete {selected_routine}? This action cannot be undone.{Style.reset}\n{Fore.yellow}(Type 'YES' to confirm or 'NO' to abort:){Style.reset}\n"
             )
             if user_confirmation == "YES":
                 clear_console()
-                print(f"{Fore.red}Deleting {selected_routine}{Style.reset}")
+                print(f"{Fore.red}Deleted {selected_routine}{Style.reset}")
                 delete_loop = False
             elif user_confirmation == "NO":
                 clear_console()
