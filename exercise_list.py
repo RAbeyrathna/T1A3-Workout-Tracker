@@ -65,8 +65,8 @@ def el_display():
     print(f"{Fore.blue}Displaying all exercises in Exercise Database:{Style.reset}\n")
     close_menu = False
     while not close_menu:
-        with open(exercises_file_path, "r") as exercises_file:
-            csv_reader = csv.reader(exercises_file)
+        with open(file_path, "r") as file:
+            csv_reader = csv.reader(file)
             header = next(csv_reader)
             print(
                 f"{Fore.CYAN}{'Exercise':<25}{'Default Weight':<15}{'Default Reps':<15}{'Default Sets':<15}{Style.RESET}"
@@ -85,7 +85,7 @@ def el_display():
         input("Press enter when you would like to return to the exericise list menu:\n")
         close_menu = True
         clear_console()
-    exercises_file.close()
+    file.close()
     clear_console()
 
 
