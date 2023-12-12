@@ -15,14 +15,19 @@ except FileNotFoundError:
         )
     templates_file.close()
 
-template_list = []
 
 # Need to do error checking and testing for the below
-with open(templates_file_path, "r") as templates_file:
-    csv_reader = csv.reader(templates_file)
-    header = next(csv_reader)
-    for row in csv_reader:
-        template_list.append(row[0])
+def update_template_list():
+    global template_list
+    template_list = []
+    with open(templates_file_path, "r") as templates_file:
+        csv_reader = csv.reader(templates_file)
+        header = next(csv_reader)
+        for row in csv_reader:
+            template_list.append(row[0])
+
+
+update_template_list()
 
 
 def wt_menu():
@@ -139,6 +144,7 @@ def wt_create():
 def wt_delete():
     clear_console()
     user_selection = ""
+    end_function = False
     return_value = len(template_list) + 1
     while user_selection != return_value:
         delete_loop = False
@@ -174,7 +180,25 @@ def wt_delete():
             )
             if user_confirmation == "YES":
                 clear_console()
+                transfer_rows = []
+                with open(templates_file_path, "r") as templates_file:
+                    csv_reader = csv.reader(templates_file)
+                    header = next(csv_reader, None)
+                    for row in csv_reader:
+                        if row[0] != selected_routine:
+                            transfer_rows.append(row)
+                templates_file.close()
+
+                with open(templates_file_path, "w", newline="") as templates_file:
+                    templates_file.write(
+                        "template_name,exercise_list,default_weight,default_reps,default_sets\n"
+                    )
+                    csvwriter = csv.writer(templates_file)
+                    csvwriter.writerows(transfer_rows)
+                templates_file.close()
                 print(f"{Fore.red}Deleted {selected_routine}{Style.reset}")
+                update_template_list()
+                return_value = len(template_list) + 1
                 delete_loop = False
             elif user_confirmation == "NO":
                 clear_console()
