@@ -141,9 +141,9 @@ def wt_delete():
     user_selection = ""
     return_value = len(template_list) + 1
     while user_selection != return_value:
-        delete_loop = True
+        delete_loop = False
         user_confirmation = False
-        print(f"{Style.BOLD}{Fore.CYAN}-- Delete Workout Templates --{Style.reset}\n")
+        print(f"{Style.BOLD}{Fore.red}-- Delete Workout Templates --{Style.reset}\n")
         print(
             f"{Style.BOLD}{Fore.YELLOW}Please select from the following options:{Style.reset}\n"
         )
@@ -151,7 +151,7 @@ def wt_delete():
             print(f"[ {index + 1} ] {template}")
         print(f"[ {return_value} ] Return to Workout Templates Menu")
         user_selection = input(
-            f"{Fore.green}\nPlease enter the index of the template you would like to view: {Style.reset}\n"
+            f"{Fore.green}\nPlease enter the index of the template you would like to delete: {Style.reset}\n"
         )
         clear_console()
 
@@ -161,7 +161,7 @@ def wt_delete():
                 raise ValueError
             if user_selection != return_value:
                 selected_routine = template_list[user_selection - 1]
-                viewing_template = True
+                delete_loop = True
         except ValueError:
             clear_console()
             print(
@@ -170,17 +170,16 @@ def wt_delete():
 
         while delete_loop:
             user_confirmation = input(
-                f"Are you sure you would like to delete {selected_routine}? (Type 'YES' to confirm or NO to abort:)"
+                f"{Style.bold}{Fore.red}Are you sure you would like to delete {selected_routine}? (Type 'YES' to confirm or 'NO' to abort:){Style.reset}\n"
             )
             if user_confirmation == "YES":
-                delete_confirmation = True
+                clear_console()
+                print(f"{Fore.red}Deleting {selected_routine}{Style.reset}")
                 delete_loop = False
             elif user_confirmation == "NO":
-                delete_confirmation = False
+                clear_console()
+                print(f"{Fore.green}User cancelled. Aborting deletion..{Style.reset}")
                 delete_loop = False
             else:
+                clear_console()
                 print("Please enter YES or NO:")
-        if delete_confirmation:
-            print(f"Deleting {selected_routine}")
-        else:
-            print(f"User cancelled. Aborting deletion..")
