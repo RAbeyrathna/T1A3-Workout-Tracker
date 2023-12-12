@@ -3,21 +3,21 @@ from colored import Fore, Back, Style
 
 menu_list = []
 we_options_list = {
-    " Create Workout Entry": "wt_display()",
+    " Create Workout Entry": "create_submenu('Entry', pw_file_path)",
 }
 
 wt_options_list = {
     " View Workout Templates": "display_submenu('Templates', wt_file_path)",
-    " Edit Workout Templates": "wt_edit()",
-    " Create New Workout Template": "wt_create()",
+    " Edit Workout Templates": "display_submenu('Templates', wt_file_path)",
+    " Create New Workout Template": "create_submenu('Templates', wt_file_path)",
     " Delete a Workout Template": "delete_submenu('Templates', wt_file_path, wt_header)",
 }
 
 el_options_list = {
     " Display all exercises in database": "el_display()",
-    " Edit an exercise from the database": "el_edit()",
-    " Add a new exercise to the database": "el_add()",
-    " Delete an exercise from the database": "el_delete()",
+    " Edit an exercise from the database": "display_submenu('Exercises', el_file_path)",
+    " Add a new exercise to the database": "create_submenu('Exercises', el_file_path)",
+    " Delete an exercise from the database": "delete_submenu('Exercises', el_file_path, el_header)",
 }
 
 pw_options_list = {
@@ -108,36 +108,6 @@ def general_menu(menu_name, options_list):
             print(
                 f"{Fore.red}Please enter a valid number between 1 and {total_options}:{Style.reset}\n"
             )
-
-
-# Function to display all exercises in Exercise Database
-def el_display():
-    clear_console()
-    print(f"{Fore.blue}Displaying all exercises in Exercise Database:{Style.reset}\n")
-    close_menu = False
-    while not close_menu:
-        with open(el_file_path, "r") as file:
-            csv_reader = csv.reader(file)
-            header = next(csv_reader)
-            print(
-                f"{Fore.CYAN}{'Exercise':<25}{'Default Weight':<15}{'Default Reps':<15}{'Default Sets':<15}{Style.RESET}"
-            )
-            for row in csv_reader:
-                (
-                    exercise_name,
-                    default_weight,
-                    default_reps,
-                    default_sets,
-                ) = row
-                print(
-                    f"{Fore.YELLOW}{exercise_name:<25}{default_weight:<15}{default_reps:<15}{default_sets:<15}{Style.RESET}"
-                )
-            print(f"\n{Fore.CYAN}[ END OF LIST ]{Style.reset}\n")
-        input("Press enter when you would like to return to the exericise list menu:\n")
-        close_menu = True
-        clear_console()
-    file.close()
-    clear_console()
 
 
 # Function used for features which have a display sub-menu
@@ -258,7 +228,9 @@ def delete_submenu(menu_name, csv_path, header):
         )
         for index, record in enumerate(menu_list):
             print(f"[ {index + 1} ] {record}")
-        print(f"[ {return_value} ] Return to previous menu")
+        print(
+            f"{Style.BOLD}{Fore.YELLOW}[ {return_value} ] Cancel and return to previous menu"
+        )
         user_selection = input(
             f"{Fore.green}\nPlease enter the index of the record you would like to delete: {Style.reset}\n"
         )
@@ -310,3 +282,43 @@ def delete_submenu(menu_name, csv_path, header):
             else:
                 clear_console()
                 print("Please enter YES or NO:")
+
+
+# Function for features which have an edit sub-menu
+def display_submenu(menu_name, csv_path):
+    pass
+
+
+# Function for features which have a create sub-menu
+def create_submenu(menu_name, csv_path):
+    pass
+
+
+# Function to display all exercises in Exercise Database
+def el_display():
+    clear_console()
+    print(f"{Fore.blue}Displaying all exercises in Exercise Database:{Style.reset}\n")
+    close_menu = False
+    while not close_menu:
+        with open(el_file_path, "r") as file:
+            csv_reader = csv.reader(file)
+            header = next(csv_reader)
+            print(
+                f"{Fore.CYAN}{'Exercise':<25}{'Default Weight':<15}{'Default Reps':<15}{'Default Sets':<15}{Style.RESET}"
+            )
+            for row in csv_reader:
+                (
+                    exercise_name,
+                    default_weight,
+                    default_reps,
+                    default_sets,
+                ) = row
+                print(
+                    f"{Fore.YELLOW}{exercise_name:<25}{default_weight:<15}{default_reps:<15}{default_sets:<15}{Style.RESET}"
+                )
+            print(f"\n{Fore.CYAN}[ END OF LIST ]{Style.reset}\n")
+        input("Press enter when you would like to return to the exericise list menu:\n")
+        close_menu = True
+        clear_console()
+    file.close()
+    clear_console()

@@ -1,4 +1,4 @@
-from functions import clear_console, general_menu
+from workout_functions import clear_console, general_menu
 from colored import Fore, Back, Style
 
 clear_console()
