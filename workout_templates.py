@@ -2,32 +2,37 @@ from colored import Fore, Back, Style
 from functions import clear_console
 import csv
 
-templates_file_path = "workout_templates.csv"
+file_path = "workout_templates.csv"
+
+menu_list = []
 
 try:
-    with open(templates_file_path, "r") as templates_file:
+    with open(file_path, "r") as file:
         pass
-    templates_file.close()
+    file.close()
 except FileNotFoundError:
-    with open(exercises_file_path, "w") as exercises_file:
-        templates_file.write(
+    with open(file_path, "w") as file:
+        file.write(
             "template_name,exercise_list,default_weight,default_reps,default_sets\n"
         )
-    templates_file.close()
+    file.close()
 
 
-# Need to do error checking and testing for the below
-def update_template_list():
-    global template_list
-    template_list = []
-    with open(templates_file_path, "r") as templates_file:
-        csv_reader = csv.reader(templates_file)
-        header = next(csv_reader)
-        for row in csv_reader:
-            template_list.append(row[0])
+### Could not import as global function - Investigate later, does not append data to menu_list
+def update_menu_list(file_path):
+    global menu_list
+    menu_list = []
+    try:
+        with open(file_path, "r") as file:
+            csv_reader = csv.reader(file)
+            header = next(csv_reader)
+            for row in csv_reader:
+                menu_list.append(row[0])
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
 
 
-update_template_list()
+update_menu_list(file_path)
 
 
 def wt_menu():
@@ -74,13 +79,13 @@ def wt_display():
     clear_console()
     user_selection = ""
     viewing_template = False
-    return_value = len(template_list) + 1
+    return_value = len(menu_list) + 1
     while user_selection != return_value:
         print(f"{Style.BOLD}{Fore.CYAN}-- Display Workout Templates --{Style.reset}\n")
         print(
             f"{Style.BOLD}{Fore.YELLOW}Please select from the following options:{Style.reset}\n"
         )
-        for index, template in enumerate(template_list):
+        for index, template in enumerate(menu_list):
             print(f"[ {index + 1} ] {template}")
         print(f"[ {return_value} ] Return to Workout Templates Menu")
         user_selection = input(
@@ -93,7 +98,7 @@ def wt_display():
             if user_selection < 1 or user_selection > return_value:
                 raise ValueError
             if user_selection != return_value:
-                selected_routine = template_list[user_selection - 1]
+                selected_routine = menu_list[user_selection - 1]
                 viewing_template = True
         except ValueError:
             clear_console()
@@ -106,8 +111,8 @@ def wt_display():
             print(
                 f"{Fore.BLUE}-- Currently viewing: {selected_routine} Workout Routine --\n"
             )
-            with open(templates_file_path, "r") as templates_file:
-                csv_reader = csv.reader(templates_file)
+            with open(file_path, "r") as file:
+                csv_reader = csv.reader(file)
                 header = next(csv_reader)
                 for row in csv_reader:
                     (
@@ -127,7 +132,7 @@ def wt_display():
                         break
                     else:
                         continue
-            templates_file.close()
+            file.close()
             input("Press enter when you would like to return to the previous menu:\n")
             viewing_template = False
             clear_console()
@@ -145,7 +150,7 @@ def wt_delete():
     clear_console()
     user_selection = ""
     end_function = False
-    return_value = len(template_list) + 1
+    return_value = len(menu_list) + 1
     while user_selection != return_value:
         delete_loop = False
         user_confirmation = False
@@ -153,7 +158,7 @@ def wt_delete():
         print(
             f"{Style.BOLD}{Fore.YELLOW}Please select from the following options:{Style.reset}\n"
         )
-        for index, template in enumerate(template_list):
+        for index, template in enumerate(menu_list):
             print(f"[ {index + 1} ] {template}")
         print(f"[ {return_value} ] Return to Workout Templates Menu")
         user_selection = input(
@@ -166,7 +171,7 @@ def wt_delete():
             if user_selection < 1 or user_selection > return_value:
                 raise ValueError
             if user_selection != return_value:
-                selected_routine = template_list[user_selection - 1]
+                selected_routine = menu_list[user_selection - 1]
                 delete_loop = True
         except ValueError:
             clear_console()
@@ -181,24 +186,24 @@ def wt_delete():
             if user_confirmation == "YES":
                 clear_console()
                 transfer_rows = []
-                with open(templates_file_path, "r") as templates_file:
-                    csv_reader = csv.reader(templates_file)
+                with open(file_path, "r") as file:
+                    csv_reader = csv.reader(file)
                     header = next(csv_reader, None)
                     for row in csv_reader:
                         if row[0] != selected_routine:
                             transfer_rows.append(row)
-                templates_file.close()
+                file.close()
 
-                with open(templates_file_path, "w", newline="") as templates_file:
-                    templates_file.write(
+                with open(file_path, "w", newline="") as file:
+                    file.write(
                         "template_name,exercise_list,default_weight,default_reps,default_sets\n"
                     )
-                    csvwriter = csv.writer(templates_file)
+                    csvwriter = csv.writer(file)
                     csvwriter.writerows(transfer_rows)
-                templates_file.close()
+                file.close()
                 print(f"{Fore.red}Deleted {selected_routine}{Style.reset}")
-                update_template_list()
-                return_value = len(template_list) + 1
+                update_menu_list(file_path)
+                return_value = len(menu_list) + 1
                 delete_loop = False
             elif user_confirmation == "NO":
                 clear_console()

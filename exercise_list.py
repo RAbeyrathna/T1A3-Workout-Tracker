@@ -2,16 +2,16 @@ from colored import Fore, Back, Style
 from functions import clear_console
 import csv
 
-exercises_file_path = "exercises.csv"
+file_path = "exercises.csv"
 
 try:
-    with open(exercises_file_path, "r") as exercises_file:
+    with open(file_path, "r") as file:
         pass
-    exercises_file.close()
+    file.close()
 except FileNotFoundError:
-    with open(exercises_file_path, "w") as exercises_file:
-        exercises_file.write("exercise_name,default_weight,default_reps,default_sets\n")
-    exercises_file.close()
+    with open(file_path, "w") as file:
+        file.write("exercise_name,default_weight,default_reps,default_sets\n")
+    file.close()
 
 
 def el_menu():
