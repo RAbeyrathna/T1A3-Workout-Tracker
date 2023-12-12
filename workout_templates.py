@@ -1,21 +1,13 @@
 from colored import Fore, Back, Style
-from functions import clear_console
+from functions import clear_console, check_csv
 import csv
 
 file_path = "workout_templates.csv"
+header = "template_name,exercise_list,default_weight,default_reps,default_sets\n"
 
 menu_list = []
 
-try:
-    with open(file_path, "r") as file:
-        pass
-    file.close()
-except FileNotFoundError:
-    with open(file_path, "w") as file:
-        file.write(
-            "template_name,exercise_list,default_weight,default_reps,default_sets\n"
-        )
-    file.close()
+check_csv(file_path, header)
 
 
 ### Could not import as global function - Investigate later, does not append data to menu_list

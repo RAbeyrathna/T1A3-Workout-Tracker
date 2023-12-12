@@ -1,17 +1,11 @@
 from colored import Fore, Back, Style
-from functions import clear_console
+from functions import clear_console, check_csv
 import csv
 
 file_path = "exercises.csv"
+header = "exercise_name,default_weight,default_reps,default_sets\n"
 
-try:
-    with open(file_path, "r") as file:
-        pass
-    file.close()
-except FileNotFoundError:
-    with open(file_path, "w") as file:
-        file.write("exercise_name,default_weight,default_reps,default_sets\n")
-    file.close()
+check_csv(file_path, header)
 
 
 def el_menu():
