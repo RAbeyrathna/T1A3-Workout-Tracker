@@ -20,9 +20,12 @@ el_options_list = {
 }
 
 pw_options_list = {
-    " View a Workout Log": "pw_display()",
+    " View a Workout Log": "display_submenu()",
     " Delete a Workout Log": "pw_delete()",
 }
+
+pw_file_path = "previous_workouts.csv"
+pw_header = "workout_date,template_used,completed_exercises\n"
 
 
 def clear_console():
@@ -43,6 +46,19 @@ def check_csv(file_path, header):
         with open(file_path, "w") as file:
             file.write(header)
         file.close()
+
+
+# def update_menu_list(file_path, list_name):
+#     global list_name
+#     list_name = []
+#     try:
+#         with open(file_path, "r") as file:
+#             csv_reader = csv.reader(file)
+#             header = next(csv_reader)
+#             for row in csv_reader:
+#                 list_name.append(row[0])
+#     except FileNotFoundError:
+#         print(f"File not found: {file_path}")
 
 
 def general_menu(menu_name, options_list):
