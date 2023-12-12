@@ -114,10 +114,10 @@ def wt_display():
                     ) = row
                     if row[0] == selected_routine:
                         print(f"{Fore.YELLOW}Template Name: {template_name}")
-                        print(f"Exercise Lists: {exercise_list:<15}")
-                        print(f"Default Weight: {default_weight:<15}")
-                        print(f"Default Reps: {default_reps:<15}")
-                        print(f"Default Sets: {default_sets:<15}{Style.RESET}")
+                        print(f"Exercise Lists: {exercise_list}")
+                        print(f"Default Weight: {default_weight}")
+                        print(f"Default Reps: {default_reps}")
+                        print(f"Default Sets: {default_sets}{Style.RESET}")
                         print("\n")
                         break
                     else:
