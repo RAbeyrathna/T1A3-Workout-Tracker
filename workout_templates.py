@@ -120,7 +120,6 @@ def wt_display():
                         print(f"Default Weight: {default_weight}")
                         print(f"Default Reps: {default_reps}")
                         print(f"Default Sets: {default_sets}{Style.RESET}")
-                        print("\n")
                         break
                     else:
                         continue
