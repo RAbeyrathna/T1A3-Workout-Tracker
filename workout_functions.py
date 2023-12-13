@@ -24,14 +24,14 @@ main_options_list = {
 }
 
 wt_options_list = {
-    " Create a New Workout Template": "create_submenu(wt_file_path)",
+    " Create a New Workout Template": "create_submenu('template', wt_file_path)",
     " View all Workout Templates": "display_records('Templates', wt_file_path)",
     " Edit Workout Templates": "edit_submenu('Templates', wt_file_path)",
     " Delete a Workout Template": "delete_submenu('Templates', wt_file_path, wt_header)",
 }
 
 el_options_list = {
-    " Create a new exercise": "create_submenu(el_file_path)",
+    " Create a new exercise": "create_submenu('exercise', el_file_path)",
     " View all Exercises": "el_display(el_file_path)",
     " Edit an Exercise": "edit_submenu('Exercises', el_file_path)",
     " Delete an Exercise": "delete_submenu('Exercises', el_file_path, el_header)",
@@ -236,23 +236,23 @@ def el_display(csv_path):
 
 
 # Function to get name for new record to be created (Exercise and Template features)
-def get_record_name():
+def get_record_name(record_type):
     valid_name = False
     record_name = input(
-        f"{Fore.CYAN}Please enter the name of the record you are creating:{Style.reset}\n"
+        f"{Fore.CYAN}Please enter the name of the {record_type} you are creating:{Style.reset}\n"
     )
     while not valid_name:
         if record_name.isdigit():
             record_name = input(
-                f"{Fore.RED}Record name cannot be a number:{Style.reset}\n"
+                f"{Fore.RED}{record_type} name cannot be a number:{Style.reset}\n"
             )
         elif len(record_name) < 3:
             record_name = input(
-                f"{Fore.RED}Record name must be at least 3 characters:{Style.reset}\n"
+                f"{Fore.RED}{record_type} name must be at least 3 characters:{Style.reset}\n"
             )
         elif len(record_name) > 20:
             record_name = input(
-                f"{Fore.RED}Record name cannot exceed 20 characters:{Style.reset}\n"
+                f"{Fore.RED}{record_type} name cannot exceed 20 characters:{Style.reset}\n"
             )
         else:
             valid_name = True
@@ -373,12 +373,14 @@ def append_csv(file_path, append_data):
 
 
 # Exercise List Function to add exercise to the CSV
-def create_submenu(file_path):
+def create_submenu(record_type, file_path):
     clear_console()
-    record_name = get_record_name()
+    record_name = get_record_name(record_type)
     record_exists = check_record_exists(file_path, record_name)
     while record_exists:
-        print(f"{Fore.RED}Oops, looks like that record already exists.{Style.RESET}\n")
+        print(
+            f"{Fore.RED}Oops, looks like that {record_type} already exists.{Style.RESET}\n"
+        )
         record_name = get_record_name()
         record_exists = check_record_exists(file_path, record_name)
     append_data = get_append_data(record_name, file_path)
