@@ -8,14 +8,14 @@ we_options_list = {
 
 wt_options_list = {
     " View Workout Templates": "display_submenu('Templates', wt_file_path)",
-    " Edit Workout Templates": "display_submenu('Templates', wt_file_path)",
+    " Edit Workout Templates": "edit_submenu('Templates', wt_file_path)",
     " Create New Workout Template": "create_submenu('Templates', wt_file_path)",
     " Delete a Workout Template": "delete_submenu('Templates', wt_file_path, wt_header)",
 }
 
 el_options_list = {
     " Display all exercises in database": "el_display()",
-    " Edit an exercise from the database": "display_submenu('Exercises', el_file_path)",
+    " Edit an exercise from the database": "edit_submenu('Exercises', el_file_path)",
     " Add a new exercise to the database": "create_submenu('Exercises', el_file_path)",
     " Delete an exercise from the database": "delete_submenu('Exercises', el_file_path, el_header)",
 }
@@ -215,7 +215,6 @@ def delete_submenu(menu_name, csv_path, header):
     clear_console()
     update_menu_list(csv_path)
     user_selection = ""
-    end_function = False
     return_value = len(menu_list) + 1
     while user_selection != return_value:
         delete_loop = False
@@ -285,7 +284,7 @@ def delete_submenu(menu_name, csv_path, header):
 
 
 # Function for features which have an edit sub-menu
-def display_submenu(menu_name, csv_path):
+def edit_submenu(menu_name, csv_path):
     pass
 
 
