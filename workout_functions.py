@@ -345,9 +345,10 @@ def confirm_record(file_path, record_name, append_data):
         print(
             f"{Fore.blue}Would you like to save the following exercise?{Style.RESET}\n"
         )
-        print(f"{Fore.CYAN}{'Exercise':<25}{'PB Weight (kg)':<15}{Style.RESET}")
-        print(f"{Fore.YELLOW}{append_data[0]:<25}{append_data[1]:<15}{Style.RESET}")
-        print("\n")
+        exercise_table = PrettyTable()
+        exercise_table.field_names = ["Exercise", "PB Weight (kg)"]
+        exercise_table.add_row(append_data)
+        print(exercise_table)
     elif file_path == wt_file_path:
         print(
             f"{Fore.BLUE}Would you like to save the following template?{Style.RESET}\n"
