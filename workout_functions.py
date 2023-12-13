@@ -127,7 +127,7 @@ def display_menu_list(menu_name, return_value):
         )
         for index, record in enumerate(menu_list):
             print(f"[ {index + 1} ] {record}")
-        print(f"{Fore.CYAN}[ {return_value} ] Return to previous menu{Style.reset}")
+        print(f"{Fore.YELLOW}[ {return_value} ] Return to previous menu{Style.reset}")
         user_selection = input(
             f"{Fore.green}\nPlease enter the index of the record you would like to view: {Style.reset}\n"
         )
@@ -180,14 +180,15 @@ def pw_display(csv_reader, selected_record):
             print(f"{Fore.GREEN}Template Used: {template_used}{Style.reset} \n")
             # Convert string into proper dictionary
             exercises_dict = eval(completed_exercises)
-            print(
-                f"{Fore.CYAN}{'Exercise':<25}{'Recorded Weight (kg)':<20}{Style.RESET}"
-            )
-            for exercise, info in exercises_dict.items():
-                recorded_weight = info
-                print(f"{Fore.YELLOW}{exercise:<25}{recorded_weight:<20}{Style.RESET}")
+            workout_entry_table = PrettyTable()
+            workout_entry_table.field_names = ["Exercise", "Recorded Weight (kg)"]
+            for exercise, weight in exercises_dict.items():
+                workout_entry_table.add_row([exercise, weight])
+            print(workout_entry_table)
             print("\n")
-            input("Press enter when you would like to return to the previous menu:\n")
+            input(
+                f"{Fore.GREEN}Press enter when you would like to return to the previous menu:{Style.RESET}\n"
+            )
             clear_console()
             break
 
@@ -201,14 +202,15 @@ def wt_display(csv_reader, selected_record):
             print(
                 f"{Fore.BLUE}-- Viewing Workout Template: {template_name} --{Style.reset}\n"
             )
-            print(
-                f"{Fore.CYAN}{'Exercise':<25}{'Last Workout Weight (kg)':<20}{Style.RESET}"
-            )
-            for exercise, info in exercises_dict.items():
-                last_weight = info
-                print(f"{Fore.YELLOW}{exercise:<25}{last_weight:<20}{Style.RESET}")
+            template_table = PrettyTable()
+            template_table.field_names = ["Exercise", "Last Working Weight (kg)"]
+            for exercise, weight in exercises_dict.items():
+                template_table.add_row([exercise, weight])
+            print(template_table)
             print("\n")
-            input("Press enter when you would like to return to the previous menu:\n")
+            input(
+                f"{Fore.GREEN}Press enter when you would like to return to the previous menu:\n"
+            )
             clear_console()
             break
 
@@ -222,13 +224,16 @@ def el_display(csv_path):
         print(
             f"{Fore.blue}Displaying all exercises in Exercise Database:{Style.reset}\n"
         )
-        print(f"{Fore.CYAN}{'Exercise':<25}{'PB Weight (kg)':<15}{Style.RESET}")
+        exercise_table = PrettyTable()
+        exercise_table.field_names = ["Exercise", "PB Weight (kg)"]
+
         for row in csv_reader:
             (
                 exercise_name,
                 pb_weight,
             ) = row
-            print(f"{Fore.YELLOW}{exercise_name:<25}{pb_weight:<15}{Style.RESET}")
+            exercise_table.add_row(row)
+        print(exercise_table)
         print(f"\n{Fore.CYAN}[ END OF LIST ]{Style.reset}\n")
         input("Press enter when you would like to return to the exericise list menu:\n")
         clear_console()
