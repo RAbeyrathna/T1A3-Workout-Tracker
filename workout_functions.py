@@ -1,6 +1,6 @@
 import os, csv
 from colored import Fore, Back, Style
-
+from prettytable import PrettyTable
 
 # Variables
 
@@ -331,13 +331,14 @@ def get_append_data(record_name, file_path):
                         add_exercise = input(
                             f"{Fore.RED}Error: Please type 'YES' or 'NO':{Style.reset}\n"
                         )
-        print(f"TESTING DICTIONARY: {str(exercise_list)}")
         append_data = {record_name: exercise_list}
+    clear_console()
     return append_data
 
 
 # Function to confirm if record should be saved to CSV
 def confirm_record(file_path, record_name, append_data):
+    clear_console()
     create_record = False
     user_input = ""
     if file_path == el_file_path:
@@ -348,9 +349,19 @@ def confirm_record(file_path, record_name, append_data):
         print(f"{Fore.YELLOW}{append_data[0]:<25}{append_data[1]:<15}{Style.RESET}")
         print("\n")
     elif file_path == wt_file_path:
-        pass
+        print(
+            f"{Fore.BLUE}Would you like to save the following template?{Style.RESET}\n"
+        )
+        print(f"{Fore.YELLOW}Template Name: {record_name}{Style.reset}\n")
+        template_table = PrettyTable()
+        template_table.field_names = ["Exercise", "Last Working Weight (kg)"]
+        for routine, exercises in append_data.items():
+            for exercise, weight in exercises.items():
+                template_table.add_row([exercise, weight])
+        print(template_table)
+
     while create_record == False:
-        user_input = input(f"{Fore.GREEN}Please enter 'YES' or 'NO':{Style.RESET}\n")
+        user_input = input(f"{Fore.GREEN}\nPlease enter 'YES' or 'NO':{Style.RESET}\n")
         if user_input == "YES":
             clear_console()
             create_record = True
