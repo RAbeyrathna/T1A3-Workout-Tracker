@@ -24,21 +24,21 @@ main_options_list = {
 }
 
 wt_options_list = {
-    " Create a New Workout Template": "create_submenu('Templates', wt_file_path)",
+    " Create a New Workout Template": "create_submenu(wt_file_path)",
     " View all Workout Templates": "display_records('Templates', wt_file_path)",
     " Edit Workout Templates": "edit_submenu('Templates', wt_file_path)",
     " Delete a Workout Template": "delete_submenu('Templates', wt_file_path, wt_header)",
 }
 
 el_options_list = {
-    " Create a new exercise": "create_submenu('Exercises', el_file_path)",
+    " Create a new exercise": "create_submenu(el_file_path)",
     " View all Exercises": "el_display(el_file_path)",
     " Edit an Exercise": "edit_submenu('Exercises', el_file_path)",
     " Delete an Exercise": "delete_submenu('Exercises', el_file_path, el_header)",
 }
 
 pw_options_list = {
-    " Create a new Workout Entry": "create_submenu('Entry', pw_file_path)",
+    " Create a new Workout Entry": "create_workout_entry('Entry', pw_file_path)",
     " View all Workout Logs": "display_records('Log', pw_file_path)",
     " Delete a Workout Log": "delete_submenu('Log', pw_file_path, pw_header)",
 }
@@ -235,8 +235,101 @@ def el_display(csv_path):
     file.close()
 
 
-# Function for features which have a create sub-menu
-def create_submenu(menu_name, csv_path):
+# Function to get name for new record to be created (Exercise and Template features)
+def get_record_name():
+    record_name = input(
+        f"{Fore.CYAN}Please enter the name of the record you are creating:{Style.reset}\n"
+    )
+    return record_name
+
+
+# Function to check if record already exists in CSV
+def check_record_exists(file_path, record_name):
+    record_exists = False
+    with open(file_path, "r") as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader, None)
+        for row in csv_reader:
+            if row[0].lower() == record_name.lower():
+                record_exists = True
+            else:
+                continue
+    file.close()
+    return record_exists
+
+
+def get_append_data(record_name, file_path):
+    if file_path == el_file_path:
+        current_pb = input(
+            f"{Fore.CYAN}Please enter your current PB for this exercise:{Style.reset}\n"
+        )
+        clear_console()
+        append_data = [record_name, current_pb]
+    elif file_path == wt_file_path:
+        exercise_list = {}
+        user_input = ""
+        while user_input != "done":
+            exercise_key = input(
+                f"{Fore.CYAN}Please enter the exercise you want to add:{Style.reset}\n"
+            )
+            exercise_weight = 0
+        append_data = {exercise_key: 0}
+    return append_data
+
+
+# Function to confirm if record should be saved to CSV
+def confirm_record(file_path, record_name, append_data):
+    create_record = False
+    user_input = ""
+    if file_path == el_file_path:
+        print(
+            f"{Fore.blue}Would you like to save the following exercise?{Style.RESET}\n"
+        )
+        print(f"{Fore.CYAN}{'Exercise':<25}{'PB Weight (kg)':<15}{Style.RESET}")
+        print(f"{Fore.YELLOW}{append_data[0]:<25}{append_data[1]:<15}{Style.RESET}")
+        print("\n")
+    elif file_path == wt_file_path:
+        pass
+    while create_record == False:
+        user_input = input(f"{Fore.GREEN}Please enter 'YES' or 'NO':{Style.RESET}\n")
+        if user_input == "YES":
+            clear_console()
+            create_record = True
+            return create_record
+        elif user_input == "NO":
+            clear_console()
+            print(f"{Fore.GREEN}Aborting function...{Style.RESET}")
+            return create_record
+        else:
+            print(f"{Fore.RED}Invalid input. Please enter 'YES' or 'NO':{Style.RESET}")
+
+
+# Function to create and add function to specified CSV
+def append_csv(file_path, append_data):
+    with open(file_path, "a", newline="") as file:
+        csv_writer = csv.writer(file)
+        csv_writer.writerow(append_data)
+    file.close()
+    print(f"{Fore.GREEN}Success! Added record to database!\n{Style.RESET}")
+
+
+# Exercise List Function to add exercise to the CSV
+def create_submenu(file_path):
+    clear_console()
+    record_name = get_record_name()
+    record_exists = check_record_exists(file_path, record_name)
+    while record_exists:
+        print(f"{Fore.RED}Oops, looks like that record already exists.{Style.RESET}\n")
+        record_name = get_record_name()
+        record_exists = check_record_exists(file_path, record_name)
+    append_data = get_append_data(record_name, file_path)
+    create_record = confirm_record(file_path, record_name, append_data)
+    if create_record:
+        append_csv(file_path, append_data)
+
+
+# Function for features which have an edit sub-menu
+def create_workout_entry(menu_name, csv_path):
     pass
 
 
