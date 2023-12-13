@@ -275,9 +275,17 @@ def check_record_exists(file_path, record_name):
 
 
 def get_current_pb():
+    valid_name = False
     current_pb = input(
-        f"{Fore.CYAN}Please enter your current PB for this exercise:{Style.reset}\n"
+        f"{Fore.CYAN}Please enter your current PB for this exercise (in kg):{Style.reset}\n"
     )
+    while not valid_name:
+        if not current_pb.isdigit():
+            current_pb = input(f"{Fore.RED}PB must be a digit:{Style.reset}\n")
+        elif len(current_pb) > 4:
+            current_pb = input(f"{Fore.RED}PB cannot exceed 4 digits:{Style.reset}\n")
+        else:
+            valid_name = True
     return current_pb
 
 
@@ -307,18 +315,22 @@ def get_append_data(record_name, file_path):
                 print(
                     f"{Fore.RED}Error, exercise does not exist in database. Did you want to add it?{Style.reset}\n"
                 )
+                add_exercise_loop = True
                 add_exercise = input(f"{Fore.YELLOW}Type 'YES' or 'NO':{Style.reset}\n")
-                if add_exercise == "YES":
-                    current_pb = get_current_pb()
-                    append_exercise_data = [exercise_key, current_pb]
-                    append_csv(el_file_path, append_exercise_data)
-                    exercise_list[exercise_key] = 0
-                elif add_exercise == "NO":
-                    continue
-                else:
-                    add_exercise = input(
-                        f"{Fore.RED}Error: Please type 'YES' or 'NO':{Style.reset}\n"
-                    )
+                while add_exercise_loop:
+                    if add_exercise == "YES":
+                        current_pb = get_current_pb()
+                        append_exercise_data = [exercise_key, current_pb]
+                        append_csv(el_file_path, append_exercise_data)
+                        exercise_list[exercise_key] = 0
+                        add_exercise_loop = False
+                    elif add_exercise == "NO":
+                        add_exercise_loop = False
+                        continue
+                    else:
+                        add_exercise = input(
+                            f"{Fore.RED}Error: Please type 'YES' or 'NO':{Style.reset}\n"
+                        )
         print(f"TESTING DICTIONARY: {str(exercise_list)}")
         append_data = {record_name: exercise_list}
     return append_data
