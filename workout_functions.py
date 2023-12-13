@@ -87,7 +87,7 @@ def general_menu(menu_name, options_list):
         if menu_name == "Main":
             print(f"{Fore.RED}[ {total_options} ] Exit Application{Style.reset}")
         else:
-            print(f"{Fore.CYAN}[ {total_options} ] Return to Main Menu{Style.reset}")
+            print(f"{Fore.YELLOW}[ {total_options} ] Return to Main Menu{Style.reset}")
         user_selection = input(
             f"{Fore.green}\nEnter the function you would like to enter: {Style.reset}\n"
         )
@@ -130,6 +130,8 @@ def display_menu_list(menu_name, return_value):
             if user_selection < 1 or user_selection > return_value:
                 raise ValueError
             if user_selection != return_value:
+                return user_selection
+            elif user_selection == return_value:
                 return user_selection
         except ValueError:
             clear_console()
@@ -216,113 +218,51 @@ def display_records(menu_name, csv_path):
 # Function used for features which have a delete sub-menu
 def delete_submenu(menu_name, csv_path, header):
     clear_console()
+    delete_loop = False
     update_menu_list(csv_path)
-    user_selection = ""
     return_value = len(menu_list) + 1
-    while user_selection != return_value:
-        delete_loop = False
-        user_confirmation = False
-        print(
-            f"{Style.BOLD}{Fore.red}-- Delete Workout {menu_name} Menu --{Style.reset}\n"
+    user_selection = display_menu_list(menu_name, return_value)
+    if user_selection != return_value:
+        selected_record = menu_list[user_selection - 1]
+        delete_loop = True
+    while delete_loop:
+        user_confirmation = input(
+            f"{Style.bold}{Fore.red}Are you sure you would like to delete {selected_record}? This action cannot be undone.{Style.reset}\n{Fore.yellow}(Type 'YES' to confirm or 'NO' to abort:){Style.reset}\n"
         )
-        print(
-            f"{Style.BOLD}{Fore.YELLOW}Please select from the following options:{Style.reset}\n"
-        )
-        for index, record in enumerate(menu_list):
-            print(f"[ {index + 1} ] {record}")
-        print(
-            f"{Style.BOLD}{Fore.YELLOW}[ {return_value} ] Cancel and return to previous menu"
-        )
-        user_selection = input(
-            f"{Fore.green}\nPlease enter the index of the record you would like to delete: {Style.reset}\n"
-        )
-        clear_console()
-
-        try:
-            user_selection = int(user_selection)
-            if user_selection < 1 or user_selection > return_value:
-                raise ValueError
-            if user_selection != return_value:
-                selected_record = menu_list[user_selection - 1]
-                delete_loop = True
-        except ValueError:
+        if user_confirmation == "YES":
             clear_console()
-            print(
-                f"{Fore.red}Please enter a valid number between 1 and {return_value}:{Style.reset}\n"
-            )
+            transfer_rows = []
+            with open(csv_path, "r") as file:
+                csv_reader = csv.reader(file)
+                header = next(csv_reader, None)
+                for row in csv_reader:
+                    if row[0] != selected_record:
+                        transfer_rows.append(row)
+            file.close()
 
-        while delete_loop:
-            user_confirmation = input(
-                f"{Style.bold}{Fore.red}Are you sure you would like to delete {selected_record}? This action cannot be undone.{Style.reset}\n{Fore.yellow}(Type 'YES' to confirm or 'NO' to abort:){Style.reset}\n"
-            )
-            if user_confirmation == "YES":
-                clear_console()
-                transfer_rows = []
-                with open(csv_path, "r") as file:
-                    csv_reader = csv.reader(file)
-                    header = next(csv_reader, None)
-                    for row in csv_reader:
-                        if row[0] != selected_record:
-                            transfer_rows.append(row)
-                file.close()
-
-                with open(csv_path, "w", newline="") as file:
-                    # Convert header into a string instead of list
-                    file.write(",".join(header) + "\n")
-                    csvwriter = csv.writer(file)
-                    csvwriter.writerows(transfer_rows)
-                file.close()
-                print(f"{Fore.red}Deleted {selected_record}{Style.reset}")
-                # Update menu list so it doesn't show old records
-                update_menu_list(csv_path)
-                return_value = len(menu_list) + 1
-                delete_loop = False
-            elif user_confirmation == "NO":
-                clear_console()
-                print(f"{Fore.green}User cancelled. Aborting deletion..{Style.reset}")
-                delete_loop = False
-            else:
-                clear_console()
-                print("Please enter YES or NO:")
+            with open(csv_path, "w", newline="") as file:
+                # Convert header into a string instead of list
+                file.write(",".join(header) + "\n")
+                csvwriter = csv.writer(file)
+                csvwriter.writerows(transfer_rows)
+            file.close()
+            print(f"{Fore.red}Deleted {selected_record}{Style.reset}")
+            # Update menu list so it doesn't show old records
+            update_menu_list(csv_path)
+            return_value = len(menu_list) + 1
+            delete_loop = False
+        elif user_confirmation == "NO":
+            clear_console()
+            print(f"{Fore.green}User cancelled. Aborting deletion..{Style.reset}")
+            delete_loop = False
+        else:
+            clear_console()
+            print("Please enter YES or NO:")
 
 
 # Function for features which have a create sub-menu
 def create_submenu(menu_name, csv_path):
-    clear_console()
-    update_menu_list(csv_path)
-    user_selection = ""
-    return_value = len(menu_list) + 1
-    while user_selection != return_value:
-        delete_loop = False
-        user_confirmation = False
-        print(
-            f"{Style.BOLD}{Fore.red}-- Create Workout {menu_name} Menu --{Style.reset}\n"
-        )
-        print(
-            f"{Style.BOLD}{Fore.YELLOW}Please select from the following options:{Style.reset}\n"
-        )
-        for index, record in enumerate(menu_list):
-            print(f"[ {index + 1} ] {record}")
-        print(
-            f"{Style.BOLD}{Fore.YELLOW}[ {return_value} ] Cancel and return to previous menu"
-        )
-        user_selection = input(
-            f"{Fore.green}\nPlease enter the index of the record you would like to delete: {Style.reset}\n"
-        )
-        clear_console()
-
-        try:
-            user_selection = int(user_selection)
-            if user_selection < 1 or user_selection > return_value:
-                raise ValueError
-            if user_selection != return_value:
-                selected_record = menu_list[user_selection - 1]
-                delete_loop = True
-        except ValueError:
-            clear_console()
-            print(
-                f"{Fore.red}Please enter a valid number between 1 and {return_value}:{Style.reset}\n"
-            )
+    pass
 
 
 # Function for features which have an edit sub-menu
