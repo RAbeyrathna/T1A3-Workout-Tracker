@@ -4,22 +4,22 @@ from colored import Fore, Back, Style
 menu_list = []
 
 wt_options_list = {
-    " View Workout Templates": "display_submenu('Templates', wt_file_path)",
+    " Create a New Workout Template": "create_submenu('Templates', wt_file_path)",
+    " View all Workout Templates": "display_submenu('Templates', wt_file_path)",
     " Edit Workout Templates": "edit_submenu('Templates', wt_file_path)",
-    " Create New Workout Template": "create_submenu('Templates', wt_file_path)",
     " Delete a Workout Template": "delete_submenu('Templates', wt_file_path, wt_header)",
 }
 
 el_options_list = {
-    " Display all exercises in database": "el_display()",
-    " Edit an exercise from the database": "edit_submenu('Exercises', el_file_path)",
-    " Add a new exercise to the database": "create_submenu('Exercises', el_file_path)",
-    " Delete an exercise from the database": "delete_submenu('Exercises', el_file_path, el_header)",
+    " Create a new exercise": "create_submenu('Exercises', el_file_path)",
+    " View all Exercises": "el_display()",
+    " Edit an Exercise": "edit_submenu('Exercises', el_file_path)",
+    " Delete an Exercise": "delete_submenu('Exercises', el_file_path, el_header)",
 }
 
 pw_options_list = {
     " Create a new Workout Entry": "create_submenu('Entry', pw_file_path)",
-    " View a Workout Log": "display_submenu('Log', pw_file_path)",
+    " View all Workout Logs": "display_submenu('Log', pw_file_path)",
     " Delete a Workout Log": "delete_submenu('Log', pw_file_path, pw_header)",
 }
 
