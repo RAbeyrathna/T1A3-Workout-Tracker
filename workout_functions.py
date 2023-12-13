@@ -237,9 +237,25 @@ def el_display(csv_path):
 
 # Function to get name for new record to be created (Exercise and Template features)
 def get_record_name():
+    valid_name = False
     record_name = input(
         f"{Fore.CYAN}Please enter the name of the record you are creating:{Style.reset}\n"
     )
+    while not valid_name:
+        if record_name.isdigit():
+            record_name = input(
+                f"{Fore.RED}Record name cannot be a number:{Style.reset}\n"
+            )
+        elif len(record_name) < 3:
+            record_name = input(
+                f"{Fore.RED}Record name must be at least 3 characters:{Style.reset}\n"
+            )
+        elif len(record_name) > 20:
+            record_name = input(
+                f"{Fore.RED}Record name cannot exceed 20 characters:{Style.reset}\n"
+            )
+        else:
+            valid_name = True
     return record_name
 
 
@@ -258,22 +274,53 @@ def check_record_exists(file_path, record_name):
     return record_exists
 
 
+def get_current_pb():
+    current_pb = input(
+        f"{Fore.CYAN}Please enter your current PB for this exercise:{Style.reset}\n"
+    )
+    return current_pb
+
+
 def get_append_data(record_name, file_path):
     if file_path == el_file_path:
-        current_pb = input(
-            f"{Fore.CYAN}Please enter your current PB for this exercise:{Style.reset}\n"
-        )
+        current_pb = get_current_pb()
         clear_console()
         append_data = [record_name, current_pb]
     elif file_path == wt_file_path:
         exercise_list = {}
         user_input = ""
-        while user_input != "done":
-            exercise_key = input(
-                f"{Fore.CYAN}Please enter the exercise you want to add:{Style.reset}\n"
+        exercise_key = ""
+        while exercise_key.lower() != "done":
+            print(
+                f"{Fore.CYAN}Please enter the exercise you want to add: {Style.reset}\n"
             )
-            exercise_weight = 0
-        append_data = {exercise_key: 0}
+            exercise_key = input(
+                f"{Fore.CYAN}Type 'done' when you've added all of your exercises: {Style.reset}\n"
+            )
+            if exercise_key.lower() == "done":
+                break
+
+            exercise_exists = check_record_exists(el_file_path, exercise_key)
+            if exercise_exists:
+                exercise_list[exercise_key] = 0
+            else:
+                print(
+                    f"{Fore.RED}Error, exercise does not exist in database. Did you want to add it?{Style.reset}\n"
+                )
+                add_exercise = input(f"{Fore.YELLOW}Type 'YES' or 'NO':{Style.reset}\n")
+                if add_exercise == "YES":
+                    current_pb = get_current_pb()
+                    append_exercise_data = [exercise_key, current_pb]
+                    append_csv(el_file_path, append_exercise_data)
+                    exercise_list[exercise_key] = 0
+                elif add_exercise == "NO":
+                    continue
+                else:
+                    add_exercise = input(
+                        f"{Fore.RED}Error: Please type 'YES' or 'NO':{Style.reset}\n"
+                    )
+        print(f"TESTING DICTIONARY: {str(exercise_list)}")
+        append_data = {record_name: exercise_list}
     return append_data
 
 
