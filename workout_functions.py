@@ -2,9 +2,6 @@ import os, csv
 from colored import Fore, Back, Style
 
 menu_list = []
-we_options_list = {
-    " Create Workout Entry": "create_submenu('Entry', pw_file_path)",
-}
 
 wt_options_list = {
     " View Workout Templates": "display_submenu('Templates', wt_file_path)",
@@ -21,6 +18,7 @@ el_options_list = {
 }
 
 pw_options_list = {
+    " Create a new Workout Entry": "create_submenu('Entry', pw_file_path)",
     " View a Workout Log": "display_submenu('Log', pw_file_path)",
     " Delete a Workout Log": "delete_submenu('Log', pw_file_path, pw_header)",
 }

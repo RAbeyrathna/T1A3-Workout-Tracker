@@ -8,10 +8,9 @@ print(
 )
 
 main_options_list = {
-    " Enter Workout Entry": "general_menu('Workout Entry', we_options_list)",
+    " Enter Workout Entry Menu": "general_menu('Workout Entry', pw_options_list)",
     " Enter Workout Templates Menu": "general_menu('Workout Templates', wt_options_list)",
     " View Exercise List Database": "general_menu('Exercise Database', el_options_list)",
-    " View Previous Workout Entries": "general_menu('Previous Workout Logs', pw_options_list)",
 }
 
 
