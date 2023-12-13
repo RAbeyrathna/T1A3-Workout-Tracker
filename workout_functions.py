@@ -181,13 +181,11 @@ def pw_display(csv_reader, selected_record):
             # Convert string into proper dictionary
             exercises_dict = eval(completed_exercises)
             print(
-                f"{Fore.CYAN}{'Exercise':<25}{'Working Weight (kg)':<20}{'Working Reps':<15}{'Working Sets':<15}{Style.RESET}"
+                f"{Fore.CYAN}{'Exercise':<25}{'Recorded Weight (kg)':<20}{Style.RESET}"
             )
             for exercise, info in exercises_dict.items():
-                working_weight, working_reps, working_sets = info
-                print(
-                    f"{Fore.YELLOW}{exercise:<25}{working_weight:<20}{working_reps:<15}{working_sets:<15}{Style.RESET}"
-                )
+                recorded_weight = info
+                print(f"{Fore.YELLOW}{exercise:<25}{recorded_weight:<20}{Style.RESET}")
             print("\n")
             input("Press enter when you would like to return to the previous menu:\n")
             clear_console()
@@ -204,13 +202,11 @@ def wt_display(csv_reader, selected_record):
                 f"{Fore.BLUE}-- Viewing Workout Template: {template_name} --{Style.reset}\n"
             )
             print(
-                f"{Fore.CYAN}{'Exercise':<25}{'Default Weight (kg)':<20}{'Default Reps':<15}{'Default Sets':<15}{Style.RESET}"
+                f"{Fore.CYAN}{'Exercise':<25}{'Last Workout Weight (kg)':<20}{Style.RESET}"
             )
             for exercise, info in exercises_dict.items():
-                default_weight, default_reps, default_sets = info
-                print(
-                    f"{Fore.YELLOW}{exercise:<25}{default_weight:<20}{default_reps:<15}{default_sets:<15}{Style.RESET}"
-                )
+                last_weight = info
+                print(f"{Fore.YELLOW}{exercise:<25}{last_weight:<20}{Style.RESET}")
             print("\n")
             input("Press enter when you would like to return to the previous menu:\n")
             clear_console()
@@ -226,19 +222,13 @@ def el_display(csv_path):
         print(
             f"{Fore.blue}Displaying all exercises in Exercise Database:{Style.reset}\n"
         )
-        print(
-            f"{Fore.CYAN}{'Exercise':<25}{'Default Weight':<15}{'Default Reps':<15}{'Default Sets':<15}{Style.RESET}"
-        )
+        print(f"{Fore.CYAN}{'Exercise':<25}{'PB Weight (kg)':<15}{Style.RESET}")
         for row in csv_reader:
             (
                 exercise_name,
-                default_weight,
-                default_reps,
-                default_sets,
+                pb_weight,
             ) = row
-            print(
-                f"{Fore.YELLOW}{exercise_name:<25}{default_weight:<15}{default_reps:<15}{default_sets:<15}{Style.RESET}"
-            )
+            print(f"{Fore.YELLOW}{exercise_name:<25}{pb_weight:<15}{Style.RESET}")
         print(f"\n{Fore.CYAN}[ END OF LIST ]{Style.reset}\n")
         input("Press enter when you would like to return to the exericise list menu:\n")
         clear_console()
