@@ -116,11 +116,11 @@ def update_menu_list(file_path):
 
 
 # Function used to display menu_list items as menu options
-def display_menu_list(menu_name, return_value):
+def display_menu_list(menu_name, return_value, function):
     user_selection = ""
     while user_selection != return_value:
         print(
-            f"{Style.BOLD}{Fore.CYAN}-- Display Workout {menu_name} Menu --{Style.reset}\n"
+            f"{Style.BOLD}{Fore.CYAN}-- {function} Workout {menu_name} Menu --{Style.reset}\n"
         )
         print(
             f"{Style.BOLD}{Fore.YELLOW}Please select from the following options:{Style.reset}\n"
@@ -129,7 +129,7 @@ def display_menu_list(menu_name, return_value):
             print(f"[ {index + 1} ] {record}")
         print(f"{Fore.YELLOW}[ {return_value} ] Return to previous menu{Style.reset}")
         user_selection = input(
-            f"{Fore.green}\nPlease enter the index of the record you would like to view: {Style.reset}\n"
+            f"{Fore.green}\nPlease enter the index of the record you would like to {function.lower()}: {Style.reset}\n"
         )
         clear_console()
         try:
@@ -152,7 +152,7 @@ def display_records(menu_name, csv_path):
     clear_console()
     update_menu_list(csv_path)
     return_value = len(menu_list) + 1
-    user_selection = display_menu_list(menu_name, return_value)
+    user_selection = display_menu_list(menu_name, return_value, "Display")
     with open(csv_path, "r") as file:
         csv_reader = csv.reader(file)
         header = next(csv_reader)
@@ -422,7 +422,7 @@ def delete_submenu(menu_name, csv_path, header):
     delete_loop = False
     update_menu_list(csv_path)
     return_value = len(menu_list) + 1
-    user_selection = display_menu_list(menu_name, return_value)
+    user_selection = display_menu_list(menu_name, return_value, "Delete")
     if user_selection != return_value:
         selected_record = menu_list[user_selection - 1]
         delete_loop = True
