@@ -41,7 +41,7 @@ el_options_list = {
 
 # Workout Entry/Previous Workout Options
 pw_options_list = {
-    " Create a new Workout Entry": "create_workout_entry('Entry', pw_file_path)",
+    " Create a new Workout Entry": "create_workout_entry('Entry', wt_file_path, pw_file_path)",
     " View all Workout Logs": "display_records('Entry', pw_file_path, 'Display')",
     " Delete a Workout Log": "delete_submenu('Log', pw_file_path, pw_header)",
 }
@@ -131,9 +131,14 @@ def display_menu_list(menu_name, return_value, function):
         for index, record in enumerate(menu_list):
             print(f"[ {index + 1} ] {record}")
         print(f"{Fore.YELLOW}[ {return_value} ] Return to previous menu{Style.reset}")
-        user_selection = input(
-            f"{Fore.green}\nPlease enter the index of the record you would like to {function.lower()}: {Style.reset}\n"
-        )
+        if menu_name == "Entry":
+            user_selection = input(
+                f"{Fore.green}\nPlease enter the index of the template you would like to use: {Style.reset}\n"
+            )
+        else:
+            user_selection = input(
+                f"{Fore.green}\nPlease enter the index of the record you would like to {function.lower()}: {Style.reset}\n"
+            )
         clear_console()
         try:
             user_selection = int(user_selection)
@@ -162,9 +167,10 @@ def display_records(menu_name, csv_path, function):
         if user_selection != return_value:
             selected_record = menu_list[user_selection - 1]
             # If Workout Templates CSV was loaded
-            if csv_path == wt_file_path:
+            if csv_path == wt_file_path and menu_name == "Templates":
                 wt_display(csv_reader, selected_record)
-
+            elif csv_path == wt_file_path and menu_name == "Entry":
+                pass
             # If Previous Workouts CSV was loaded
             elif csv_path == pw_file_path:
                 pw_display(csv_reader, selected_record)
@@ -468,10 +474,11 @@ def check_record_empty(file_path, append_data):
 
 
 # Function to create a workout entry
-def create_workout_entry(menu_name, csv_path):
+def create_workout_entry(menu_name, template_path, result_path):
     clear_console()
     workout_date = datetime.today().strftime("%Y-%m-%d")
-    display_records("Log", pw_file_path, "Create")
+    display_records("Entry", template_path, "Create")
+    # display_menu_list('Create', return_value, function)
 
 
 # Function used for features which have a delete sub-menu
