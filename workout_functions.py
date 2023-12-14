@@ -170,7 +170,8 @@ def display_records(menu_name, csv_path, function):
             if csv_path == wt_file_path and menu_name == "Templates":
                 wt_display(csv_reader, selected_record)
             elif csv_path == wt_file_path and menu_name == "Entry":
-                pass
+                file.close()
+                return selected_record
             # If Previous Workouts CSV was loaded
             elif csv_path == pw_file_path:
                 pw_display(csv_reader, selected_record)
@@ -375,7 +376,6 @@ def get_append_data(record_name, file_path):
 # Function to confirm if record should be saved to CSV
 def confirm_record(file_path, record_name, append_data):
     clear_console()
-    create_record = False
     user_input = ""
     if file_path == el_file_path:
         print(
@@ -396,7 +396,12 @@ def confirm_record(file_path, record_name, append_data):
             for exercise, weight in exercises.items():
                 template_table.add_row([exercise, weight])
         print(template_table)
+    create_record = create_record_loop()
+    return create_record
 
+
+def create_record_loop():
+    create_record = False
     while create_record == False:
         user_input = input(f"{Fore.GREEN}\nPlease enter 'YES' or 'NO':{Style.RESET}\n")
         if user_input == "YES":
@@ -438,9 +443,6 @@ def create_submenu(record_type, file_path):
         record_name = get_record_name(record_type)
         record_exists = check_record_exists(file_path, record_name)
     append_data = get_append_data(record_name, file_path)
-
-    # ADD CHECK HERE TO MAKE SURE THERE IS DATA TO APPEND
-    # FOR WT - THERE SHOULD BE AT LEAST 1 EXERCISE IN THE TEMPLATE
     record_empty = check_record_empty(file_path, append_data)
     if not record_empty:
         create_record = confirm_record(file_path, record_name, append_data)
@@ -473,12 +475,88 @@ def check_record_empty(file_path, append_data):
     return is_empty
 
 
+# Updates Workout Template with last workout weight values
+def upd_template_weight(selected_template, exercise_data, template_path):
+    updated_template = [selected_template, exercise_data]
+    transfer_rows = []
+    with open(csv_path, "r") as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader, None)
+        for row in csv_reader:
+            if row[0] != selected_template:
+                transfer_rows.append(row)
+    file.close()
+
+
+# Function to delete row from CSV
+def delete_csv_row(csv_path, selected_record):
+    transfer_rows = []
+    with open(csv_path, "r") as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader, None)
+        for row in csv_reader:
+            if row[0] != selected_record:
+                transfer_rows.append(row)
+    file.close()
+    with open(csv_path, "w", newline="") as file:
+        # Convert header into a string instead of list
+        file.write(",".join(header) + "\n")
+        csvwriter = csv.writer(file)
+        csvwriter.writerows(transfer_rows)
+    file.close()
+
+
 # Function to create a workout entry
 def create_workout_entry(menu_name, template_path, result_path):
-    clear_console()
     workout_date = datetime.today().strftime("%Y-%m-%d")
-    display_records("Entry", template_path, "Create")
-    # display_menu_list('Create', return_value, function)
+    selected_template = display_records("Entry", template_path, "Create")
+    exercise_data = get_exercise_data(template_path, selected_template)
+    workout_entry = [workout_date, selected_template, exercise_data]
+    create_entry = confirm_workout_entry(workout_date, selected_template, exercise_data)
+    if create_entry:
+        append_csv(result_path, workout_entry, "Workout Entry")
+        upd_template_weight(selected_template, exercise_data, template_path)
+    else:
+        print(f"{Fore.RED}Aborting Workout Entry..{Style.reset}")
+
+
+# Function to display workout and and confirm if it should be saved
+def confirm_workout_entry(workout_date, selected_template, exercise_data):
+    print(
+        f"{Fore.BLUE}Would you like to save the following Workout Entry?{Style.RESET}\n"
+    )
+    print(f"{Fore.YELLOW}Entry Date: {workout_date}{Style.reset}\n")
+    print(f"{Fore.YELLOW}Template Used: {selected_template}{Style.reset}\n")
+    workout_table = PrettyTable()
+    workout_table.field_names = ["Exercise", "Working Weight (kg)"]
+    for exercise, weight in exercise_data.items():
+        workout_table.add_row([exercise, weight])
+    print(workout_table)
+    create_record = create_record_loop()
+    return create_record
+
+
+# Function for create_workout_entry to loop through exercises in selected template
+def get_exercise_data(template_path, selected_template):
+    exercise_entries = {}
+    with open(template_path, "r") as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader)
+        for row in csv_reader:
+            template_name, exercise_list = row
+            if row[0] == selected_template:
+                exercises_dict = eval(exercise_list)
+                for exercise_key in exercises_dict:
+                    # ADD DATA TYPE CHECKING HERE
+                    print(f"-- Enter Working Weight for {exercise_key} --")
+                    working_weight = input(
+                        f"What was your working weight for this exercise?"
+                    )
+                    working_weight = int(working_weight)
+                    # ADD FUNCTION TO CHECK IF WORKING WEIGHT IS NEW PB
+                    exercise_entries[exercise_key] = working_weight
+    file.close()
+    return exercise_entries
 
 
 # Function used for features which have a delete sub-menu
@@ -497,23 +575,8 @@ def delete_submenu(menu_name, csv_path, header):
         )
         if user_confirmation == "YES":
             clear_console()
-            transfer_rows = []
-            with open(csv_path, "r") as file:
-                csv_reader = csv.reader(file)
-                header = next(csv_reader, None)
-                for row in csv_reader:
-                    if row[0] != selected_record:
-                        transfer_rows.append(row)
-            file.close()
-
-            with open(csv_path, "w", newline="") as file:
-                # Convert header into a string instead of list
-                file.write(",".join(header) + "\n")
-                csvwriter = csv.writer(file)
-                csvwriter.writerows(transfer_rows)
-            file.close()
+            delete_csv_row(csv_path, selected_record)
             print(f"{Fore.red}Deleted {selected_record}{Style.reset}")
-            # Update menu list so it doesn't show old records
             update_menu_list(csv_path)
             return_value = len(menu_list) + 1
             delete_loop = False
