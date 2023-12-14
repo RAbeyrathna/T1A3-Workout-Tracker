@@ -97,7 +97,7 @@ def general_menu(menu_name, options_list):
         except ValueError:
             clear_console()
             print(
-                f"{Fore.red}Please enter a valid number between 1 and {total_options}:{Style.reset}\n"
+                f"{Fore.red}Error: Please enter a valid number between 1 and {total_options}:{Style.reset}\n"
             )
 
 
@@ -143,7 +143,7 @@ def display_menu_list(menu_name, return_value, function):
         except ValueError:
             clear_console()
             print(
-                f"{Fore.red}Please enter a valid number between 1 and {return_value}:{Style.reset}\n"
+                f"{Fore.red}Error: Please enter a valid number between 1 and {return_value}:{Style.reset}\n"
             )
 
 
@@ -338,9 +338,18 @@ def get_append_data(record_name, file_path):
                     if add_exercise == "YES":
                         current_pb = get_current_pb()
                         append_exercise_data = [exercise_key, current_pb]
-                        append_csv(el_file_path, append_exercise_data)
-                        exercise_list[exercise_key] = 0
-                        add_exercise_loop = False
+                        exercise_empty = check_record_empty(
+                            el_file_path, append_exercise_data
+                        )
+                        if not exercise_empty:
+                            append_csv(el_file_path, append_exercise_data, "exercise")
+                            exercise_list[exercise_key] = 0
+                            add_exercise_loop = False
+                        else:
+                            print(
+                                f"{Fore.RED}Sorry, there was an error adding that exercise.{Style.reset}"
+                            )
+                            break
                     elif add_exercise == "NO":
                         add_exercise_loop = False
                         clear_console()
@@ -386,15 +395,15 @@ def confirm_record(file_path, record_name, append_data):
             create_record = True
             return create_record
         elif user_input == "NO":
+            create_record = False
             clear_console()
-            print(f"{Fore.GREEN}Aborting function...{Style.RESET}")
             return create_record
         else:
             print(f"{Fore.RED}Invalid input. Please enter 'YES' or 'NO':{Style.RESET}")
 
 
 # Function to create and add function to specified CSV
-def append_csv(file_path, append_data):
+def append_csv(file_path, append_data, record_type):
     with open(file_path, "a", newline="") as file:
         csv_writer = csv.writer(file)
         if file_path == wt_file_path:
@@ -404,7 +413,8 @@ def append_csv(file_path, append_data):
         else:
             csv_writer.writerow(append_data)
     file.close()
-    print(f"{Fore.GREEN}Success! Added record to database!\n{Style.RESET}")
+    clear_console()
+    print(f"{Fore.GREEN}Success! Added {record_type} to database!\n{Style.RESET}")
 
 
 # Exercise List Function to add exercise to the CSV
@@ -422,13 +432,39 @@ def create_submenu(record_type, file_path):
 
     # ADD CHECK HERE TO MAKE SURE THERE IS DATA TO APPEND
     # FOR WT - THERE SHOULD BE AT LEAST 1 EXERCISE IN THE TEMPLATE
+    record_empty = check_record_empty(file_path, append_data)
+    if not record_empty:
+        create_record = confirm_record(file_path, record_name, append_data)
+        if create_record:
+            append_csv(file_path, append_data, record_type)
+        else:
+            print(f"{Fore.GREEN}Aborting function...{Style.RESET}")
+    else:
+        print(
+            f"{Fore.RED}That {record_type} is empty. Aborting creation..{Style.RESET}\n"
+        )
 
-    create_record = confirm_record(file_path, record_name, append_data)
-    if create_record:
-        append_csv(file_path, append_data)
+
+# Checks if the record holds any data to be appended
+def check_record_empty(file_path, append_data):
+    is_empty = True
+    # Checks at least 1 exercise has been added to Workout Templates
+    if file_path == wt_file_path:
+        template_name = list(append_data.keys())[0]
+        is_empty = not (bool(append_data[template_name]))
+    # Checks PB Entry exists and is an integer for Exercises
+    elif file_path == el_file_path:
+        try:
+            float(append_data[1])
+            is_empty = False
+        except (ValueError, TypeError):
+            print(f"{Fore.RED}Error: PB Entry is not an integer{Style.reset}")
+        except IndexError:
+            print(f"{Fore.RED}Error: PB entry does not exist{Style.reset}")
+    return is_empty
 
 
-# Function for features which have an edit sub-menu
+# Function to create a workout entry
 def create_workout_entry(menu_name, csv_path):
     pass
 
@@ -480,4 +516,4 @@ def delete_submenu(menu_name, csv_path, header):
             delete_loop = False
         else:
             clear_console()
-            print("Please enter YES or NO:")
+            print(f"{Fore.RED}Error: Please enter 'YES' or 'NO':{Style.reset}")
