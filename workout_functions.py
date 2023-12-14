@@ -243,24 +243,35 @@ def el_display(csv_path):
 # Function to get name for new record to be created (Exercise and Template features)
 def get_record_name(record_type):
     valid_name = False
-    record_name = input(
-        f"{Fore.CYAN}Please enter the name of the {record_type} you are creating:{Style.reset}\n"
-    )
+    if record_type == "template exercise":
+        print(
+            f"{Fore.CYAN}Please enter the name of the exercise you would like to add:{Style.reset}"
+        )
+        record_name = input(
+            f"{Fore.YELLOW}Type 'done' when you've added all of your exercises: {Style.reset}\n"
+        )
+        clear_console()
+    else:
+        record_name = input(
+            f"{Fore.BLUE}Please enter the name of the {record_type} you are creating:{Style.reset}\n"
+        )
+        clear_console()
     while not valid_name:
         if record_name.isdigit():
             record_name = input(
-                f"{Fore.RED}{record_type} name cannot be a number:{Style.reset}\n"
+                f"{Fore.RED}Error: {record_type.capitalize()} name cannot be a number. Please try again:{Style.reset}\n"
             )
         elif len(record_name) < 3:
             record_name = input(
-                f"{Fore.RED}{record_type} name must be at least 3 characters:{Style.reset}\n"
+                f"{Fore.RED}Error: {record_type.capitalize()} name must be at least 3 characters. Please try again:{Style.reset}\n"
             )
         elif len(record_name) > 20:
             record_name = input(
-                f"{Fore.RED}{record_type} name cannot exceed 20 characters:{Style.reset}\n"
+                f"{Fore.RED}Error: {record_type.capitalize()} name cannot exceed 20 characters. Please try again:{Style.reset}\n"
             )
         else:
             valid_name = True
+            record_name = record_name.title()
     return record_name
 
 
@@ -279,6 +290,7 @@ def check_record_exists(file_path, record_name):
     return record_exists
 
 
+# Function to prompt user to type exercise PB
 def get_current_pb():
     valid_name = False
     current_pb = input(
@@ -294,6 +306,7 @@ def get_current_pb():
     return current_pb
 
 
+# Function to create append_data variable to add to CSV
 def get_append_data(record_name, file_path):
     if file_path == el_file_path:
         current_pb = get_current_pb()
@@ -304,21 +317,20 @@ def get_append_data(record_name, file_path):
         user_input = ""
         exercise_key = ""
         while exercise_key.lower() != "done":
-            print(
-                f"{Fore.CYAN}Please enter the exercise you want to add: {Style.reset}\n"
-            )
-            exercise_key = input(
-                f"{Fore.CYAN}Type 'done' when you've added all of your exercises: {Style.reset}\n"
-            )
+            print(f"-- Template Name: {record_name} --\n")
+            exercise_key = get_record_name("template exercise")
             if exercise_key.lower() == "done":
                 break
+            else:
+                exercise_key = exercise_key.title()
 
             exercise_exists = check_record_exists(el_file_path, exercise_key)
             if exercise_exists:
                 exercise_list[exercise_key] = 0
+                print(f"{Fore.GREEN}Added {exercise_key}{Style.reset}")
             else:
                 print(
-                    f"{Fore.RED}Error, exercise does not exist in database. Did you want to add it?{Style.reset}\n"
+                    f"{Fore.RED}Error: {Fore.YELLOW}{exercise_key}{Style.reset}{Fore.RED} does not exist in database. Did you want to add it?{Style.reset}\n"
                 )
                 add_exercise_loop = True
                 add_exercise = input(f"{Fore.YELLOW}Type 'YES' or 'NO':{Style.reset}\n")
@@ -331,6 +343,7 @@ def get_append_data(record_name, file_path):
                         add_exercise_loop = False
                     elif add_exercise == "NO":
                         add_exercise_loop = False
+                        clear_console()
                         continue
                     else:
                         add_exercise = input(
@@ -398,9 +411,13 @@ def create_submenu(record_type, file_path):
         print(
             f"{Fore.RED}Oops, looks like that {record_type} already exists.{Style.RESET}\n"
         )
-        record_name = get_record_name()
+        record_name = get_record_name(record_type)
         record_exists = check_record_exists(file_path, record_name)
     append_data = get_append_data(record_name, file_path)
+
+    # ADD CHECK HERE TO MAKE SURE THERE IS DATA TO APPEND
+    # FOR WT - THERE SHOULD BE AT LEAST 1 EXERCISE IN THE TEMPLATE
+
     create_record = confirm_record(file_path, record_name, append_data)
     if create_record:
         append_csv(file_path, append_data)
