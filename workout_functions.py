@@ -420,7 +420,7 @@ def create_record_loop():
 def append_csv(file_path, append_data, record_type):
     with open(file_path, "a", newline="") as file:
         csv_writer = csv.writer(file)
-        if file_path == wt_file_path:
+        if file_path == wt_file_path and record_type != "Updated Template":
             template_name = list(append_data.keys())[0]
             exercise_dict = append_data[template_name]
             csv_writer.writerow([template_name, exercise_dict])
@@ -428,7 +428,10 @@ def append_csv(file_path, append_data, record_type):
             csv_writer.writerow(append_data)
     file.close()
     clear_console()
-    print(f"{Fore.GREEN}Success! Added {record_type} to database!\n{Style.RESET}")
+    if record_type == "Updated Template":
+        pass
+    else:
+        print(f"{Fore.GREEN}Success! Added {record_type} to database!\n{Style.RESET}")
 
 
 # Exercise List Function to add exercise to the CSV
@@ -478,14 +481,8 @@ def check_record_empty(file_path, append_data):
 # Updates Workout Template with last workout weight values
 def upd_template_weight(selected_template, exercise_data, template_path):
     updated_template = [selected_template, exercise_data]
-    transfer_rows = []
-    with open(csv_path, "r") as file:
-        csv_reader = csv.reader(file)
-        header = next(csv_reader, None)
-        for row in csv_reader:
-            if row[0] != selected_template:
-                transfer_rows.append(row)
-    file.close()
+    delete_csv_row(template_path, selected_template)
+    append_csv(template_path, updated_template, "Updated Template")
 
 
 # Function to delete row from CSV
@@ -510,6 +507,8 @@ def delete_csv_row(csv_path, selected_record):
 def create_workout_entry(menu_name, template_path, result_path):
     workout_date = datetime.today().strftime("%Y-%m-%d")
     selected_template = display_records("Entry", template_path, "Create")
+    if not selected_template:
+        return
     exercise_data = get_exercise_data(template_path, selected_template)
     workout_entry = [workout_date, selected_template, exercise_data]
     create_entry = confirm_workout_entry(workout_date, selected_template, exercise_data)
@@ -547,11 +546,17 @@ def get_exercise_data(template_path, selected_template):
             if row[0] == selected_template:
                 exercises_dict = eval(exercise_list)
                 for exercise_key in exercises_dict:
-                    # ADD DATA TYPE CHECKING HERE
-                    print(f"-- Enter Working Weight for {exercise_key} --")
-                    working_weight = input(
-                        f"What was your working weight for this exercise?"
+                    print(
+                        f"{Fore.BLUE}-- Enter Working Weight for {exercise_key} --{Style.reset}\n"
                     )
+                    print(
+                        f"{Fore.CYAN}Your last recorded weight for {Fore.YELLOW}{exercise_key}{Fore.CYAN} in this template was: {Fore.YELLOW}{exercises_dict[exercise_key]}kg{Style.reset}"
+                    )
+                    working_weight = input(
+                        f"\n{Fore.GREEN}What was your working weight for this exercise today?{Style.reset}"
+                    )
+                    print("\n")
+                    # ADD DATA TYPE CHECKING HERE
                     working_weight = int(working_weight)
                     # ADD FUNCTION TO CHECK IF WORKING WEIGHT IS NEW PB
                     exercise_entries[exercise_key] = working_weight
