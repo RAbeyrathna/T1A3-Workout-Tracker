@@ -397,7 +397,12 @@ def confirm_record(file_path, record_name, append_data):
 def append_csv(file_path, append_data):
     with open(file_path, "a", newline="") as file:
         csv_writer = csv.writer(file)
-        csv_writer.writerow(append_data)
+        if file_path == wt_file_path:
+            template_name = list(append_data.keys())[0]
+            exercise_dict = append_data[template_name]
+            csv_writer.writerow([template_name, exercise_dict])
+        else:
+            csv_writer.writerow(append_data)
     file.close()
     print(f"{Fore.GREEN}Success! Added record to database!\n{Style.RESET}")
 
