@@ -1,6 +1,7 @@
 import os, csv
 from colored import Fore, Back, Style
 from prettytable import PrettyTable
+from datetime import datetime
 
 # Variables
 
@@ -15,29 +16,33 @@ wt_header = "template_name,exercises\n"
 
 menu_list = []
 
-# Menu Options
+# Menu Option Variables to access features
 
+# Main Menu Options
 main_options_list = {
     " Enter Workout Entry Menu": "general_menu('Workout Entry', pw_options_list)",
     " Enter Workout Templates Menu": "general_menu('Workout Templates', wt_options_list)",
     " View Exercise List Database": "general_menu('Exercise Database', el_options_list)",
 }
 
+# Workout Template Options
 wt_options_list = {
     " Create a New Workout Template": "create_submenu('template', wt_file_path)",
-    " View all Workout Templates": "display_records('Templates', wt_file_path)",
+    " View all Workout Templates": "display_records('Templates', wt_file_path, 'Display')",
     " Delete a Workout Template": "delete_submenu('Templates', wt_file_path, wt_header)",
 }
 
+# Exercise List Options
 el_options_list = {
     " Create a new exercise": "create_submenu('exercise', el_file_path)",
     " View all Exercises": "el_display(el_file_path)",
     " Delete an Exercise": "delete_submenu('Exercises', el_file_path, el_header)",
 }
 
+# Workout Entry/Previous Workout Options
 pw_options_list = {
     " Create a new Workout Entry": "create_workout_entry('Entry', pw_file_path)",
-    " View all Workout Logs": "display_records('Log', pw_file_path)",
+    " View all Workout Logs": "display_records('Entry', pw_file_path, 'Display')",
     " Delete a Workout Log": "delete_submenu('Log', pw_file_path, pw_header)",
 }
 
@@ -146,11 +151,11 @@ def display_menu_list(menu_name, return_value, function):
 
 
 # Function used to print records for features
-def display_records(menu_name, csv_path):
+def display_records(menu_name, csv_path, function):
     clear_console()
     update_menu_list(csv_path)
     return_value = len(menu_list) + 1
-    user_selection = display_menu_list(menu_name, return_value, "Display")
+    user_selection = display_menu_list(menu_name, return_value, function)
     with open(csv_path, "r") as file:
         csv_reader = csv.reader(file)
         header = next(csv_reader)
@@ -464,7 +469,9 @@ def check_record_empty(file_path, append_data):
 
 # Function to create a workout entry
 def create_workout_entry(menu_name, csv_path):
-    pass
+    clear_console()
+    workout_date = datetime.today().strftime("%Y-%m-%d")
+    display_records("Log", pw_file_path, "Create")
 
 
 # Function used for features which have a delete sub-menu
