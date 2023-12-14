@@ -26,14 +26,12 @@ main_options_list = {
 wt_options_list = {
     " Create a New Workout Template": "create_submenu('template', wt_file_path)",
     " View all Workout Templates": "display_records('Templates', wt_file_path)",
-    " Edit Workout Templates": "edit_submenu('Templates', wt_file_path)",
     " Delete a Workout Template": "delete_submenu('Templates', wt_file_path, wt_header)",
 }
 
 el_options_list = {
     " Create a new exercise": "create_submenu('exercise', el_file_path)",
     " View all Exercises": "el_display(el_file_path)",
-    " Edit an Exercise": "edit_submenu('Exercises', el_file_path)",
     " Delete an Exercise": "delete_submenu('Exercises', el_file_path, el_header)",
 }
 
@@ -466,11 +464,6 @@ def check_record_empty(file_path, append_data):
 
 # Function to create a workout entry
 def create_workout_entry(menu_name, csv_path):
-    pass
-
-
-# Function for features which have an edit sub-menu
-def edit_submenu(menu_name, csv_path):
     pass
 
 
