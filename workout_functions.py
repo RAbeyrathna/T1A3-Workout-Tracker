@@ -307,12 +307,11 @@ def get_current_pb():
         f"{Fore.CYAN}Please enter your current PB for this exercise (in kg):{Style.reset}\n"
     )
     while not valid_name:
-        if not current_pb.isdigit():
-            current_pb = input(f"{Fore.RED}PB must be a digit:{Style.reset}\n")
-        elif len(current_pb) > 4:
-            current_pb = input(f"{Fore.RED}PB cannot exceed 4 digits:{Style.reset}\n")
-        else:
+        try:
+            current_pb = float(current_pb)
             valid_name = True
+        except ValueError:
+            current_pb = input(f"{Fore.RED}Error: PB must be a digit:{Style.reset}\n")
     return current_pb
 
 
@@ -400,6 +399,7 @@ def confirm_record(file_path, record_name, append_data):
     return create_record
 
 
+# Function to pass through boolean value if user wants to save record
 def create_record_loop():
     create_record = False
     while create_record == False:
@@ -546,18 +546,26 @@ def get_exercise_data(template_path, selected_template):
             if row[0] == selected_template:
                 exercises_dict = eval(exercise_list)
                 for exercise_key in exercises_dict:
-                    print(
-                        f"{Fore.BLUE}-- Enter Working Weight for {exercise_key} --{Style.reset}\n"
-                    )
-                    print(
-                        f"{Fore.CYAN}Your last recorded weight for {Fore.YELLOW}{exercise_key}{Fore.CYAN} in this template was: {Fore.YELLOW}{exercises_dict[exercise_key]}kg{Style.reset}"
-                    )
-                    working_weight = input(
-                        f"\n{Fore.GREEN}What was your working weight for this exercise today?{Style.reset}"
-                    )
-                    print("\n")
-                    # ADD DATA TYPE CHECKING HERE
-                    working_weight = int(working_weight)
+                    valid_input = False
+                    while not valid_input:
+                        try:
+                            print(
+                                f"{Fore.BLUE}-- Enter Working Weight for {Fore.YELLOW}{exercise_key}{Style.reset} --{Style.reset}\n"
+                            )
+                            print(
+                                f"{Fore.CYAN}Your last recorded weight for {exercise_key.lower()} in this template was: {Fore.YELLOW}{exercises_dict[exercise_key]}kg{Style.reset}"
+                            )
+                            working_weight = input(
+                                f"\n{Fore.GREEN}What was your working weight for this exercise today?{Style.reset}"
+                            )
+                            print("\n")
+                            working_weight = float(working_weight)
+                            valid_input = True
+                        except ValueError:
+                            print(
+                                f"{Fore.RED}Error: Please enter a number!\n{Style.reset}"
+                            )
+
                     # ADD FUNCTION TO CHECK IF WORKING WEIGHT IS NEW PB
                     exercise_entries[exercise_key] = working_weight
     file.close()
