@@ -184,20 +184,21 @@ def pw_display(csv_reader, selected_record):
     for row in csv_reader:
         (workout_date, template_used, completed_exercises) = row
         if row[0] == selected_record:
-            print(
-                f"{Fore.BLUE}-- Viewing Workout Log: {workout_date} --{Style.reset}\n"
-            )
-            print(f"{Fore.GREEN}Template Used: {template_used}{Style.reset} \n")
             # Convert string into proper dictionary
             exercises_dict = eval(completed_exercises)
             workout_entry_table = PrettyTable()
             workout_entry_table.field_names = ["Exercise", "Recorded Weight (kg)"]
             for exercise, weight in exercises_dict.items():
                 workout_entry_table.add_row([exercise, weight])
-            print(workout_entry_table)
-            print("\n")
+            print(
+                f"{Fore.BLUE}-- Viewing Workout Log: {Fore.YELLOW}{workout_date}{Style.reset} --{Style.reset}\n"
+            )
+            print(
+                f"{Fore.CYAN}Template Used: {Fore.YELLOW}{template_used}{Style.reset} \n"
+            )
+            print(f"{workout_entry_table}\n")
             input(
-                f"{Fore.GREEN}Press enter when you would like to return to the previous menu:{Style.RESET}\n"
+                f"{Fore.GREEN}Press enter when you would like to return to the Workout Entry menu:{Style.RESET}\n"
             )
             clear_console()
             break
@@ -209,20 +210,18 @@ def wt_display(csv_reader, selected_record):
         template_name, exercise_list = row
         if row[0] == selected_record:
             exercises_dict = eval(exercise_list)
-            print(
-                f"{Fore.BLUE}-- Viewing Workout Template: {template_name} --{Style.reset}\n"
-            )
             template_table = PrettyTable()
             template_table.field_names = ["Exercise", "Last Working Weight (kg)"]
             for exercise, weight in exercises_dict.items():
                 template_table.add_row([exercise, weight])
-            print(template_table)
-            print("\n")
+            print(
+                f"{Fore.BLUE}-- Viewing Workout Template: {Fore.YELLOW}{template_name}{Style.reset} --{Style.reset}\n"
+            )
+            print(f"{template_table}\n")
             input(
-                f"{Fore.GREEN}Press enter when you would like to return to the previous menu:\n"
+                f"{Fore.GREEN}Press enter when you would like to return to the Workout Templates menu:\n"
             )
             clear_console()
-            break
 
 
 # Function to display all exercises in Exercise Database
@@ -231,21 +230,21 @@ def el_display(csv_path):
     with open(csv_path, "r") as file:
         csv_reader = csv.reader(file)
         header = next(csv_reader)
-        print(
-            f"{Fore.blue}Displaying all exercises in Exercise Database:{Style.reset}\n"
-        )
         exercise_table = PrettyTable()
         exercise_table.field_names = ["Exercise", "PB Weight (kg)"]
-
         for row in csv_reader:
             (
                 exercise_name,
                 pb_weight,
             ) = row
             exercise_table.add_row(row)
-        print(exercise_table)
-        print(f"\n{Fore.CYAN}[ END OF LIST ]{Style.reset}\n")
-        input("Press enter when you would like to return to the exericise list menu:\n")
+        print(
+            f"{Fore.blue}Displaying all exercises in Exercise Database:{Style.reset}\n"
+        )
+        print(f"{exercise_table}\n")
+        input(
+            f"{Fore.green}Press enter when you would like to return to the Exercise List menu:\n{Style.reset}"
+        )
         clear_console()
     file.close()
 
@@ -260,7 +259,6 @@ def get_record_name(record_type):
         record_name = input(
             f"{Fore.YELLOW}Type 'done' when you've added all of your exercises: {Style.reset}\n"
         )
-        clear_console()
     else:
         record_name = input(
             f"{Fore.BLUE}Please enter the name of the {record_type} you are creating:{Style.reset}\n"
@@ -336,6 +334,7 @@ def get_append_data(record_name, file_path):
             exercise_exists = check_record_exists(el_file_path, exercise_key)
             if exercise_exists:
                 exercise_list[exercise_key] = 0
+                clear_console()
                 print(f"{Fore.GREEN}Added {exercise_key}{Style.reset}")
             else:
                 print(
@@ -356,7 +355,7 @@ def get_append_data(record_name, file_path):
                             add_exercise_loop = False
                         else:
                             print(
-                                f"{Fore.RED}Sorry, there was an error adding that exercise.{Style.reset}"
+                                f"{Fore.RED}Error: Sorry, there was an error adding that exercise.{Style.reset}"
                             )
                             break
                     elif add_exercise == "NO":
@@ -403,7 +402,9 @@ def confirm_record(file_path, record_name, append_data):
 def create_record_loop():
     create_record = False
     while create_record == False:
-        user_input = input(f"{Fore.GREEN}\nPlease enter 'YES' or 'NO':{Style.RESET}\n")
+        user_input = input(
+            f"{Fore.GREEN}\nPlease enter {Fore.YELLOW}'YES' {Fore.GREEN}or {Fore.YELLOW}'NO'{Style.RESET}:{Style.RESET}\n"
+        )
         if user_input == "YES":
             clear_console()
             create_record = True
@@ -413,7 +414,7 @@ def create_record_loop():
             clear_console()
             return create_record
         else:
-            print(f"{Fore.RED}Invalid input. Please enter 'YES' or 'NO':{Style.RESET}")
+            print(f"{Fore.RED}Error: Invalid input.{Style.RESET}")
 
 
 # Function to create and add function to specified CSV
@@ -441,7 +442,7 @@ def create_submenu(record_type, file_path):
     record_exists = check_record_exists(file_path, record_name)
     while record_exists:
         print(
-            f"{Fore.RED}Oops, looks like that {record_type} already exists.{Style.RESET}\n"
+            f"{Fore.RED}Error: Looks like that {record_type} already exists.{Style.RESET}\n"
         )
         record_name = get_record_name(record_type)
         record_exists = check_record_exists(file_path, record_name)
@@ -452,10 +453,10 @@ def create_submenu(record_type, file_path):
         if create_record:
             append_csv(file_path, append_data, record_type)
         else:
-            print(f"{Fore.GREEN}Aborting function...{Style.RESET}")
+            print(f"{Fore.RED}User cancelled: Aborting function...{Style.RESET}")
     else:
         print(
-            f"{Fore.RED}That {record_type} is empty. Aborting creation..{Style.RESET}\n"
+            f"{Fore.RED}Error: That {record_type} is empty. Aborting creation..{Style.RESET}\n"
         )
 
 
@@ -515,17 +516,21 @@ def create_workout_entry(menu_name, template_path, result_path):
     if create_entry:
         append_csv(result_path, workout_entry, "Workout Entry")
         upd_template_weight(selected_template, exercise_data, template_path)
+        # CREATE FUNCTION TO CHECK IF ANY NEW PB'S FROM TODAYS WORKOUT
+        # CREATE FUNCTION TO DISPLAY OLD AND NEW PB'S TO USER
+        # CREATE FUNCTION TO UPDATE EXERCISE DATABASE WITH NEW PB
     else:
-        print(f"{Fore.RED}Aborting Workout Entry..{Style.reset}")
+        print(f"{Fore.red}User cancelled: Aborting Workout Entry..{Style.reset}")
 
 
 # Function to display workout and and confirm if it should be saved
 def confirm_workout_entry(workout_date, selected_template, exercise_data):
+    clear_console()
     print(
         f"{Fore.BLUE}Would you like to save the following Workout Entry?{Style.RESET}\n"
     )
-    print(f"{Fore.YELLOW}Entry Date: {workout_date}{Style.reset}\n")
-    print(f"{Fore.YELLOW}Template Used: {selected_template}{Style.reset}\n")
+    print(f"{Fore.CYAN}Entry Date: {Fore.YELLOW}{workout_date}{Style.reset}\n")
+    print(f"{Fore.CYAN}Template Used: {Fore.YELLOW}{selected_template}{Style.reset}\n")
     workout_table = PrettyTable()
     workout_table.field_names = ["Exercise", "Working Weight (kg)"]
     for exercise, weight in exercise_data.items():
@@ -565,8 +570,6 @@ def get_exercise_data(template_path, selected_template):
                             print(
                                 f"{Fore.RED}Error: Please enter a number!\n{Style.reset}"
                             )
-
-                    # ADD FUNCTION TO CHECK IF WORKING WEIGHT IS NEW PB
                     exercise_entries[exercise_key] = working_weight
     file.close()
     return exercise_entries
@@ -584,7 +587,7 @@ def delete_submenu(menu_name, csv_path, header):
         delete_loop = True
     while delete_loop:
         user_confirmation = input(
-            f"{Style.bold}{Fore.red}Are you sure you would like to delete {selected_record}? This action cannot be undone.{Style.reset}\n{Fore.yellow}(Type 'YES' to confirm or 'NO' to abort:){Style.reset}\n"
+            f"{Style.bold}{Fore.red}Confirmation: Are you sure you would like to delete {Fore.YELLOW}{selected_record}{Style.reset}{Style.bold}{Fore.red}? This action cannot be undone.{Style.reset}\n{Fore.red}(Type {Fore.YELLOW}'YES'{Style.reset}{Fore.red} to confirm or {Fore.YELLOW}'NO'{Style.reset}{Fore.red} to abort:){Style.reset}\n"
         )
         if user_confirmation == "YES":
             clear_console()
@@ -595,8 +598,8 @@ def delete_submenu(menu_name, csv_path, header):
             delete_loop = False
         elif user_confirmation == "NO":
             clear_console()
-            print(f"{Fore.green}User cancelled. Aborting deletion..{Style.reset}")
+            print(f"{Fore.red}User cancelled. Aborting deletion..{Style.reset}")
             delete_loop = False
         else:
             clear_console()
-            print(f"{Fore.RED}Error: Please enter 'YES' or 'NO':{Style.reset}")
+            print(f"{Fore.RED}Error: Invalid input.{Style.reset}\n")
