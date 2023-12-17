@@ -273,7 +273,7 @@ def get_record_name(record_type):
             record_name = input(
                 f"{Fore.RED}Error: {record_type.capitalize()} name must be at least 3 characters. Please try again:{Style.reset}\n"
             )
-        elif len(record_name) > 20:
+        elif len(record_name) > 30:
             record_name = input(
                 f"{Fore.RED}Error: {record_type.capitalize()} name cannot exceed 20 characters. Please try again:{Style.reset}\n"
             )
@@ -516,11 +516,44 @@ def create_workout_entry(menu_name, template_path, result_path):
     if create_entry:
         append_csv(result_path, workout_entry, "Workout Entry")
         upd_template_weight(selected_template, exercise_data, template_path)
-        # CREATE FUNCTION TO CHECK IF ANY NEW PB'S FROM TODAYS WORKOUT
+        new_pb_exercises = check_new_pb(exercise_data)
         # CREATE FUNCTION TO DISPLAY OLD AND NEW PB'S TO USER
         # CREATE FUNCTION TO UPDATE EXERCISE DATABASE WITH NEW PB
     else:
         print(f"{Fore.red}User cancelled: Aborting Workout Entry..{Style.reset}")
+
+
+def check_new_pb(exercise_data):
+    workout_exercises = {}
+    for exercise_key in exercise_data:
+        workout_exercises[exercise_key] = exercise_data[exercise_key]
+    pb_exercises = {}
+    with open("exercises.csv", "r") as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader, None)
+        for row in csv_reader:
+            for completed_exercise in workout_exercises:
+                if row[0] == completed_exercise:
+                    pb_weight = row[1]
+                    pb_exercises[completed_exercise] = pb_weight
+    file.close()
+    new_pb_exercises = {}
+    for exercise in workout_exercises:
+        recorded_pb = float(pb_exercises[exercise])
+        current_weight = float(workout_exercises[exercise])
+        if current_weight > recorded_pb:
+            new_pb_exercises[exercise] = current_weight
+        else:
+            pass
+    return new_pb_exercises
+
+
+def compare_pb():
+    pass
+
+
+def update_exercise_pb():
+    pass
 
 
 # Function to display workout and and confirm if it should be saved
