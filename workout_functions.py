@@ -231,7 +231,7 @@ def el_display(csv_path):
         csv_reader = csv.reader(file)
         header = next(csv_reader)
         exercise_table = PrettyTable()
-        exercise_table.field_names = ["Exercise", "PB Weight (kg)"]
+        exercise_table.field_names = ["Exercise", " Weight (kg)"]
         for row in csv_reader:
             (
                 exercise_name,
@@ -516,17 +516,15 @@ def create_workout_entry(menu_name, template_path, result_path):
     if create_entry:
         append_csv(result_path, workout_entry, "Workout Entry")
         upd_template_weight(selected_template, exercise_data, template_path)
+        # ADD FUNCTION TO CHECK IF NEW_PB_EXERCISES CONTAINS DATA
         new_pb_exercises = check_new_pb(exercise_data)
-        # CREATE FUNCTION TO DISPLAY OLD AND NEW PB'S TO USER
+        update_pb = compare_pb(exercise_data, new_pb_exercises)
         # CREATE FUNCTION TO UPDATE EXERCISE DATABASE WITH NEW PB
     else:
         print(f"{Fore.red}User cancelled: Aborting Workout Entry..{Style.reset}")
 
 
-def check_new_pb(exercise_data):
-    workout_exercises = {}
-    for exercise_key in exercise_data:
-        workout_exercises[exercise_key] = exercise_data[exercise_key]
+def get_pb_exercises(workout_exercises):
     pb_exercises = {}
     with open("exercises.csv", "r") as file:
         csv_reader = csv.reader(file)
@@ -537,9 +535,17 @@ def check_new_pb(exercise_data):
                     pb_weight = row[1]
                     pb_exercises[completed_exercise] = pb_weight
     file.close()
+    return pb_exercises
+
+
+def check_new_pb(exercise_data):
+    workout_exercises = {}
+    for exercise_key in exercise_data:
+        workout_exercises[exercise_key] = exercise_data[exercise_key]
+    pb_data = get_pb_exercises(workout_exercises)
     new_pb_exercises = {}
     for exercise in workout_exercises:
-        recorded_pb = float(pb_exercises[exercise])
+        recorded_pb = float(pb_data[exercise])
         current_weight = float(workout_exercises[exercise])
         if current_weight > recorded_pb:
             new_pb_exercises[exercise] = current_weight
@@ -548,8 +554,36 @@ def check_new_pb(exercise_data):
     return new_pb_exercises
 
 
-def compare_pb():
-    pass
+def compare_pb(exercise_data, new_pb_exercises):
+    workout_exercises = {}
+    for exercise_key in exercise_data:
+        workout_exercises[exercise_key] = exercise_data[exercise_key]
+    pb_data = get_pb_exercises(workout_exercises)
+    old_pb_exercises = {}
+    for exercise in pb_data:
+        for pb_exercise in new_pb_exercises:
+            if exercise == pb_exercise:
+                old_pb_exercises[exercise] = pb_data[exercise]
+    print(f"{Fore.GREEN}Congrats! You have acheived the following PB's:{Style.RESET}\n")
+    pb_table = PrettyTable()
+    pb_table.field_names = [
+        "Exercise",
+        "Current Workout Weight (kg)",
+        "Old PB Weight(kg)",
+    ]
+    for new_pb_exercise in new_pb_exercises:
+        new_pb_weight = new_pb_exercises[new_pb_exercise]
+        for old_pb_exercise in old_pb_exercises:
+            old_pb_weight = old_pb_exercises[old_pb_exercise]
+            if old_pb_exercise == new_pb_exercise:
+                pb_table.add_row([new_pb_exercise, new_pb_weight, old_pb_weight])
+            else:
+                pass
+    print(pb_table)
+    print(f"\n{Fore.GREEN}Would you live to save them?{Style.RESET}")
+    input("")
+    create_record = create_record_loop()
+    return create_record
 
 
 def update_exercise_pb():
