@@ -49,12 +49,16 @@ pw_options_list = {
 
 # Function to clear the console
 def clear_console():
-    if os.name == "nt":
-        # For Windows
-        os.system("cls")
-    else:
-        # For Unix systems
-        os.system("clear")
+    i = 0
+    # Function is run twice to completely clear console and prevent scrolling
+    while i < 2:
+        if os.name == "nt":
+            # For Windows
+            os.system("cls")
+        else:
+            # For Unix systems
+            os.system("clear")
+        i += 1
 
 
 # Function to check if CSV file exists
@@ -533,11 +537,13 @@ def create_workout_entry(menu_name, template_path, result_path):
         if confirm_update_pb:
             update_exercise_pb(new_pb_exercises, el_file_path, el_header)
         else:
+            clear_console()
             print(
                 f"{Fore.red}New PB's have not been updated in the database{Style.reset}"
             )
 
     else:
+        clear_console()
         print(f"{Fore.red}User cancelled: Aborting Workout Entry..{Style.reset}")
 
 
@@ -559,6 +565,7 @@ def update_exercise_pb(new_pb_exercises, exercises_path, el_header):
         csvwriter = csv.writer(file)
         csvwriter.writerows(transfer_rows)
     file.close()
+    clear_console()
     print(f"{Fore.GREEN}Success! Updated exercise database with new PB's!")
 
 
