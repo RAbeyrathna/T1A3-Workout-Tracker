@@ -1,4 +1,5 @@
-import os, csv
+import os
+import csv
 from colored import Fore, Back, Style
 from prettytable import PrettyTable
 from datetime import datetime
@@ -98,6 +99,7 @@ def general_menu(menu_name, options_list):
                 break
             else:
                 selected_option = list(options_list.keys())[user_selection - 1]
+                # Runs the selected option as a command
                 eval(options_list[selected_option])
         except ValueError:
             clear_console()
@@ -184,7 +186,7 @@ def pw_display(csv_reader, selected_record):
     for row in csv_reader:
         (workout_date, template_used, completed_exercises) = row
         if row[0] == selected_record:
-            # Convert string into proper dictionary
+            # Convert string dictionary into proper dictionary
             exercises_dict = eval(completed_exercises)
             workout_entry_table = PrettyTable()
             workout_entry_table.field_names = ["Exercise", "Recorded Weight (kg)"]
@@ -369,6 +371,33 @@ def get_append_data(record_name, file_path):
     return append_data
 
 
+# Checks if the record holds any data to be appended
+def check_record_empty(file_path, append_data):
+    is_empty = True
+    # Checks at least 1 exercise has been added to Workout Templates
+    if file_path == wt_file_path:
+        template_name = list(append_data.keys())[0]
+        is_empty = not (bool(append_data[template_name]))
+
+    elif file_path == el_file_path:
+        # Checks if new PB exists when creating workout entries
+        if type(append_data) == dict:
+            if len(append_data) == 0:
+                is_empty = True
+            else:
+                is_empty = False
+        # Checks PB Entry exists and is an integer for Exercise entries
+        else:
+            try:
+                float(append_data[1])
+                is_empty = False
+            except (ValueError, TypeError):
+                print(f"{Fore.RED}Error: PB Entry is not an integer{Style.reset}")
+            except IndexError:
+                print(f"{Fore.RED}Error: PB entry does not exist{Style.reset}")
+    return is_empty
+
+
 # Function to confirm if record should be saved to CSV
 def confirm_record(file_path, record_name, append_data):
     clear_console()
@@ -457,33 +486,6 @@ def create_submenu(record_type, file_path):
         )
 
 
-# Checks if the record holds any data to be appended
-def check_record_empty(file_path, append_data):
-    is_empty = True
-    # Checks at least 1 exercise has been added to Workout Templates
-    if file_path == wt_file_path:
-        template_name = list(append_data.keys())[0]
-        is_empty = not (bool(append_data[template_name]))
-
-    elif file_path == el_file_path:
-        # Checks if new PB exists when creating workout entries
-        if type(append_data) == dict:
-            if len(append_data) == 0:
-                is_empty = True
-            else:
-                is_empty = False
-        # Checks PB Entry exists and is an integer for Exercise entries
-        else:
-            try:
-                float(append_data[1])
-                is_empty = False
-            except (ValueError, TypeError):
-                print(f"{Fore.RED}Error: PB Entry is not an integer{Style.reset}")
-            except IndexError:
-                print(f"{Fore.RED}Error: PB entry does not exist{Style.reset}")
-    return is_empty
-
-
 # Updates Workout Template with last workout weight values
 def upd_template_weight(selected_template, exercise_data, template_path):
     updated_template = [selected_template, exercise_data]
@@ -505,18 +507,6 @@ def delete_csv_row(csv_path, selected_record):
         file.write(",".join(header) + "\n")
         csvwriter = csv.writer(file)
         csvwriter.writerows(transfer_rows)
-
-
-# Function to check if a workout entry exists under the workout date
-def check_workout_date(workout_date, result_path):
-    i = 0
-    with open(result_path, "r") as file:
-        csv_reader = csv.reader(file)
-        header = next(csv_reader, None)
-        for row in csv_reader:
-            if workout_date in row[0]:
-                i += 1
-    return i
 
 
 # Function to create a workout entry
@@ -552,24 +542,16 @@ def create_workout_entry(menu_name, template_path, result_path):
         print(f"{Fore.red}User cancelled: Aborting Workout Entry..{Style.reset}")
 
 
-def update_exercise_pb(new_pb_exercises, exercises_path, el_header):
-    transfer_rows = []
-    with open(exercises_path, "r") as file:
+# Function to check if a workout entry exists under the workout date
+def check_workout_date(workout_date, result_path):
+    i = 0
+    with open(result_path, "r") as file:
         csv_reader = csv.reader(file)
         header = next(csv_reader, None)
         for row in csv_reader:
-            exercise_name = row[0]
-            if exercise_name in new_pb_exercises:
-                pb_row = [exercise_name, new_pb_exercises[exercise_name]]
-                transfer_rows.append(pb_row)
-            else:
-                transfer_rows.append(row)
-    with open(exercises_path, "w", newline="") as file:
-        file.write(el_header)
-        csvwriter = csv.writer(file)
-        csvwriter.writerows(transfer_rows)
-    clear_console()
-    print(f"{Fore.GREEN}Success! Updated exercise database with new PB's!")
+            if workout_date in row[0]:
+                i += 1
+    return i
 
 
 def get_pb_exercises(workout_exercises):
@@ -599,6 +581,26 @@ def check_new_pb(exercise_data):
         else:
             pass
     return new_pb_exercises
+
+
+def update_exercise_pb(new_pb_exercises, exercises_path, el_header):
+    transfer_rows = []
+    with open(exercises_path, "r") as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader, None)
+        for row in csv_reader:
+            exercise_name = row[0]
+            if exercise_name in new_pb_exercises:
+                pb_row = [exercise_name, new_pb_exercises[exercise_name]]
+                transfer_rows.append(pb_row)
+            else:
+                transfer_rows.append(row)
+    with open(exercises_path, "w", newline="") as file:
+        file.write(el_header)
+        csvwriter = csv.writer(file)
+        csvwriter.writerows(transfer_rows)
+    clear_console()
+    print(f"{Fore.GREEN}Success! Updated exercise database with new PB's!")
 
 
 def compare_pb(exercise_data, new_pb_exercises):
