@@ -9,7 +9,7 @@ pw_file_path = "previous_workouts.csv"
 pw_header = "workout_date,template_used,completed_exercises\n"
 
 el_file_path = "exercises.csv"
-el_header = "exercise_name,default_weight,default_reps,default_sets\n"
+el_header = "exercise_name,pb_weight\n"
 
 wt_file_path = "workout_templates.csv"
 wt_header = "template_name,exercises\n"
@@ -231,7 +231,7 @@ def el_display(csv_path):
         csv_reader = csv.reader(file)
         header = next(csv_reader)
         exercise_table = PrettyTable()
-        exercise_table.field_names = ["Exercise", " Weight (kg)"]
+        exercise_table.field_names = ["Exercise", " PB Weight (kg)"]
         for row in csv_reader:
             (
                 exercise_name,
@@ -525,15 +525,41 @@ def create_workout_entry(menu_name, template_path, result_path):
         append_csv(result_path, workout_entry, "Workout Entry")
         upd_template_weight(selected_template, exercise_data, template_path)
         new_pb_exercises = check_new_pb(exercise_data)
-        empty_pb_list = check_record_empty("exercises.csv", new_pb_exercises)
+        empty_pb_list = check_record_empty(el_file_path, new_pb_exercises)
         if not empty_pb_list:
-            update_pb = compare_pb(exercise_data, new_pb_exercises)
-            print(update_pb)
+            confirm_update_pb = compare_pb(exercise_data, new_pb_exercises)
         else:
             return
-        # CREATE FUNCTION TO UPDATE EXERCISE DATABASE WITH NEW PB
+        if confirm_update_pb:
+            update_exercise_pb(new_pb_exercises, el_file_path, el_header)
+        else:
+            print(
+                f"{Fore.red}New PB's have not been updated in the database{Style.reset}"
+            )
+
     else:
         print(f"{Fore.red}User cancelled: Aborting Workout Entry..{Style.reset}")
+
+
+def update_exercise_pb(new_pb_exercises, exercises_path, el_header):
+    transfer_rows = []
+    with open(exercises_path, "r") as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader, None)
+        for row in csv_reader:
+            exercise_name = row[0]
+            if exercise_name in new_pb_exercises:
+                pb_row = [exercise_name, new_pb_exercises[exercise_name]]
+                transfer_rows.append(pb_row)
+            else:
+                transfer_rows.append(row)
+    file.close()
+    with open(exercises_path, "w", newline="") as file:
+        file.write(el_header)
+        csvwriter = csv.writer(file)
+        csvwriter.writerows(transfer_rows)
+    file.close()
+    print(f"{Fore.GREEN}Success! Updated exercise database with new PB's!")
 
 
 def get_pb_exercises(workout_exercises):
@@ -593,13 +619,8 @@ def compare_pb(exercise_data, new_pb_exercises):
                 pass
     print(pb_table)
     print(f"\n{Fore.GREEN}Would you live to save them?{Style.RESET}")
-    input("")
     create_record = create_record_loop()
     return create_record
-
-
-def update_exercise_pb():
-    pass
 
 
 # Function to display workout and and confirm if it should be saved
