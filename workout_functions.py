@@ -66,11 +66,9 @@ def check_csv(file_path, header):
     try:
         with open(file_path, "r") as file:
             pass
-        file.close()
     except FileNotFoundError:
         with open(file_path, "w") as file:
             file.write(header)
-        file.close()
 
 
 # General menu function used to navigate through main menus of the application
@@ -174,12 +172,10 @@ def display_records(menu_name, csv_path, function):
             if csv_path == wt_file_path and menu_name == "Templates":
                 wt_display(csv_reader, selected_record)
             elif csv_path == wt_file_path and menu_name == "Entry":
-                file.close()
                 return selected_record
             # If Previous Workouts CSV was loaded
             elif csv_path == pw_file_path:
                 pw_display(csv_reader, selected_record)
-    file.close()
     clear_console()
 
 
@@ -250,7 +246,6 @@ def el_display(csv_path):
             f"{Fore.green}Press enter when you would like to return to the Exercise List menu:\n{Style.reset}"
         )
         clear_console()
-    file.close()
 
 
 # Function to get name for new record to be created (Exercise and Template features)
@@ -298,7 +293,6 @@ def check_record_exists(file_path, record_name):
                 record_exists = True
             else:
                 continue
-    file.close()
     return record_exists
 
 
@@ -431,7 +425,6 @@ def append_csv(file_path, append_data, record_type):
             csv_writer.writerow([template_name, exercise_dict])
         else:
             csv_writer.writerow(append_data)
-    file.close()
     clear_console()
     if record_type == "Updated Template":
         pass
@@ -507,13 +500,11 @@ def delete_csv_row(csv_path, selected_record):
         for row in csv_reader:
             if row[0] != selected_record:
                 transfer_rows.append(row)
-    file.close()
     with open(csv_path, "w", newline="") as file:
         # Convert header into a string instead of list
         file.write(",".join(header) + "\n")
         csvwriter = csv.writer(file)
         csvwriter.writerows(transfer_rows)
-    file.close()
 
 
 # Function to check if a workout entry exists under the workout date
@@ -573,12 +564,10 @@ def update_exercise_pb(new_pb_exercises, exercises_path, el_header):
                 transfer_rows.append(pb_row)
             else:
                 transfer_rows.append(row)
-    file.close()
     with open(exercises_path, "w", newline="") as file:
         file.write(el_header)
         csvwriter = csv.writer(file)
         csvwriter.writerows(transfer_rows)
-    file.close()
     clear_console()
     print(f"{Fore.GREEN}Success! Updated exercise database with new PB's!")
 
@@ -593,7 +582,6 @@ def get_pb_exercises(workout_exercises):
                 if row[0] == completed_exercise:
                     pb_weight = row[1]
                     pb_exercises[completed_exercise] = pb_weight
-    file.close()
     return pb_exercises
 
 
@@ -692,7 +680,6 @@ def get_exercise_data(template_path, selected_template):
                                 f"{Fore.RED}Error: Please enter a number!\n{Style.reset}"
                             )
                     exercise_entries[exercise_key] = working_weight
-    file.close()
     return exercise_entries
 
 
