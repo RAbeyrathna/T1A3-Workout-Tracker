@@ -4,6 +4,3 @@ workout_date,template_used,completed_exercises
 2023-12-13,Full Body,"{'Squats': 0, 'Deadlifts': 0, 'Bench Press': 0, 'Rows': 0, 'Overhead Press': 0, 'Bicep Curls': 0, 'Tricep Dips': 0, 'Leg Curls': 0}"
 2023-12-14,Push/Pull,"{'Bench Press': 0, 'Overhead Press': 0, 'Tricep Dips': 0, 'Rows': 0, 'Lateral Raises': 0, 'Chin-ups': 0, 'Chest Flyes': 0}"
 2023-12-15,Leg Day,"{'Squats': 0, 'Deadlifts': 0, 'Lunges': 0, 'Leg Press': 0, 'Hamstring Curls': 0, 'Calf Raises': 0, 'Leg Extensions': 0}"
-2023-12-18,Upper Body,"{'Bench Press': 1.0, 'Overhead Press': 1.0, 'Rows': 1.0, 'Bicep Curls': 1.0, 'Tricep Extensions': 0.0, 'Lateral Raises': 0.0, 'Chin-ups': 0.0}"
-2023-12-18,PPL,"{'Squats': 1.0, 'Deadlifts': 1.0, 'Bench Press': 1.0, 'Rows': 1.0, 'Lunges': 1.0, 'Tricep Dips': 1.0, 'Leg Curls': 0.0}"
-2023-12-18,Full Body,"{'Squats': 1.0, 'Deadlifts': 1.0, 'Bench Press': 0.0, 'Rows': 0.0, 'Overhead Press': 0.0, 'Bicep Curls': 0.0, 'Tricep Dips': 0.0, 'Leg Curls': 0.0}"

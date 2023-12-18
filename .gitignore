@@ -3,6 +3,3 @@
 __pycache__
 .DS_Store
 *.csv
-previous_workouts.csv
-workout_templates.csv
-exercises.csv

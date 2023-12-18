@@ -516,9 +516,24 @@ def delete_csv_row(csv_path, selected_record):
     file.close()
 
 
+# Function to check if a workout entry exists under the workout date
+def check_workout_date(workout_date, result_path):
+    i = 0
+    with open(result_path, "r") as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader, None)
+        for row in csv_reader:
+            if workout_date in row[0]:
+                i += 1
+    return i
+
+
 # Function to create a workout entry
 def create_workout_entry(menu_name, template_path, result_path):
     workout_date = datetime.today().strftime("%Y-%m-%d")
+    amount_of_workouts = check_workout_date(workout_date, result_path)
+    if amount_of_workouts > 0:
+        workout_date = f"{workout_date} ({amount_of_workouts})"
     selected_template = display_records("Entry", template_path, "Create")
     if not selected_template:
         return
@@ -541,7 +556,6 @@ def create_workout_entry(menu_name, template_path, result_path):
             print(
                 f"{Fore.red}New PB's have not been updated in the database{Style.reset}"
             )
-
     else:
         clear_console()
         print(f"{Fore.red}User cancelled: Aborting Workout Entry..{Style.reset}")
