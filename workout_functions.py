@@ -467,15 +467,23 @@ def check_record_empty(file_path, append_data):
     if file_path == wt_file_path:
         template_name = list(append_data.keys())[0]
         is_empty = not (bool(append_data[template_name]))
-    # Checks PB Entry exists and is an integer for Exercises
+
     elif file_path == el_file_path:
-        try:
-            float(append_data[1])
-            is_empty = False
-        except (ValueError, TypeError):
-            print(f"{Fore.RED}Error: PB Entry is not an integer{Style.reset}")
-        except IndexError:
-            print(f"{Fore.RED}Error: PB entry does not exist{Style.reset}")
+        # Checks if new PB exists when creating workout entries
+        if type(append_data) == dict:
+            if len(append_data) == 0:
+                is_empty = True
+            else:
+                is_empty = False
+        # Checks PB Entry exists and is an integer for Exercise entries
+        else:
+            try:
+                float(append_data[1])
+                is_empty = False
+            except (ValueError, TypeError):
+                print(f"{Fore.RED}Error: PB Entry is not an integer{Style.reset}")
+            except IndexError:
+                print(f"{Fore.RED}Error: PB entry does not exist{Style.reset}")
     return is_empty
 
 
@@ -516,9 +524,13 @@ def create_workout_entry(menu_name, template_path, result_path):
     if create_entry:
         append_csv(result_path, workout_entry, "Workout Entry")
         upd_template_weight(selected_template, exercise_data, template_path)
-        # ADD FUNCTION TO CHECK IF NEW_PB_EXERCISES CONTAINS DATA
         new_pb_exercises = check_new_pb(exercise_data)
-        update_pb = compare_pb(exercise_data, new_pb_exercises)
+        empty_pb_list = check_record_empty("exercises.csv", new_pb_exercises)
+        if not empty_pb_list:
+            update_pb = compare_pb(exercise_data, new_pb_exercises)
+            print(update_pb)
+        else:
+            return
         # CREATE FUNCTION TO UPDATE EXERCISE DATABASE WITH NEW PB
     else:
         print(f"{Fore.red}User cancelled: Aborting Workout Entry..{Style.reset}")
