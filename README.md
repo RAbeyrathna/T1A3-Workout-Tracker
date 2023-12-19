@@ -12,4 +12,12 @@ This application is a Workout Tracker that allows the user to create workout tem
 
 ## Implementation Plan
 
+## Code Style Guide
+
+The code was written in reference to the [PEP 8 – Style Guide for Python Code](https://peps.python.org/pep-0008/).
+
 ## Screenshots
+
+## References Sources
+
+## Help Documentation
