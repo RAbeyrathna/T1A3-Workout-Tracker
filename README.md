@@ -159,7 +159,11 @@ If you decided to start from scratch and deleted any of the data files, you will
 
 #### Creating an Exercise
 
-Upon entering the *Create* function, you'll be prompted to enter the name of the exercise you are creating. The exercise name must be at least **3 characters long** and **cannot** be a number.
+After entering the *Exercise submenu*, you can select *Create an Exercise* to create a custom exercise record.
+
+You'll be prompted to enter the name of the exercise you would like to create.
+
+The exercise name must be at least **3 characters long** and **cannot** be a number.
 
 You will then be prompted to add your current PB weight for that exercise. This value must be a number which will automatically be turned into a float if it is not one already.
 
