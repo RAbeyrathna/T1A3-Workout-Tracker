@@ -106,4 +106,18 @@ I used Trello to manage my overall project and tasks I had to do, as well as Not
 
 ## References
 
+Zlatanidis, D. (2023) Colored, PyPI. Available at: https://pypi.org/project/colored/ (Accessed: 11 December 2023).
+
+OS - miscellaneous operating system interfaces (no date) Python documentation. Available at: https://docs.python.org/3/library/os.html (Accessed: 11 December 2023).
+
+Datetime - basic date and time types (no date) Python documentation. Available at: https://docs.python.org/3/library/datetime.html (Accessed: 14 December 2023).
+
+Maurits, L. (2023) Prettytable, PyPI. Available at: https://pypi.org/project/prettytable/ (Accessed: 13 December 2023).
+
+Python eval() (no date) Programiz. Available at: https://www.programiz.com/python-programming/methods/built-in/eval (Accessed: 13 December 2023).
+
+adityaprasad1308 (2021) Python - read CSV columns into list, GeeksforGeeks. Available at: https://www.geeksforgeeks.org/python-read-csv-columns-into-list/ (Accessed: 14 December 2023).
+
+Python enhancement proposals (2023) PEP 8 – Style Guide for Python Code. Available at: https://peps.python.org/pep-0008/ (Accessed: 19 December 2023).
+
 ## Help Documentation
