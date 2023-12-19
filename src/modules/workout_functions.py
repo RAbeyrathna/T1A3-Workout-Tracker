@@ -6,13 +6,13 @@ from datetime import datetime
 
 # Variables
 
-pw_file_path = "previous_workouts.csv"
+pw_file_path = "./data/previous_workouts.csv"
 pw_header = "workout_date,template_used,completed_exercises\n"
 
-el_file_path = "exercises.csv"
+el_file_path = "./data/exercises.csv"
 el_header = "exercise_name,pb_weight\n"
 
-wt_file_path = "workout_templates.csv"
+wt_file_path = "./data/workout_templates.csv"
 wt_header = "template_name,exercises\n"
 
 menu_list = []
@@ -83,7 +83,7 @@ def check_csv(file_path, header):
             general_exception("An error occured while creating a CSV file", e)
 
 
-def file_not_found(file_path):
+def file_not_found(file_path, e):
     clear_console()
     print(f"{Fore.red}Error: Could not find CSV file {file_path}: {Style.reset}{e}")
 
@@ -142,8 +142,8 @@ def update_menu_list(file_path):
             header = next(csv_reader)
             for row in csv_reader:
                 menu_list.append(row[0])
-    except FileNotFoundError:
-        file_not_found(file_path)
+    except FileNotFoundError as fe:
+        file_not_found(file_path, fe)
     except Exception as e:
         general_exception("There was an error updating the menu list", e)
 
@@ -211,8 +211,8 @@ def display_records(menu_name, csv_path, function):
                 elif csv_path == pw_file_path:
                     pw_display(csv_reader, selected_record)
         clear_console()
-    except FileNotFoundError:
-        file_not_found(csv_path)
+    except FileNotFoundError as fe:
+        file_not_found(csv_path, fe)
     except Exception as e:
         general_exception("An error occurred while displaying the records", e)
 
@@ -299,8 +299,8 @@ def el_display(csv_path):
                 f"{Fore.green}Press enter when you would like to return to the Exercise List menu:\n{Style.reset}"
             )
             clear_console()
-    except FileNotFoundError:
-        file_not_found(csv_path)
+    except FileNotFoundError as fe:
+        file_not_found(csv_path, fe)
     except Exception as e:
         general_exception("An error occurred while displaying the exercise database", e)
 
@@ -356,8 +356,8 @@ def check_record_exists(file_path, record_name):
                     record_exists = True
                 else:
                     continue
-    except FileNotFoundError:
-        file_not_found(file_path)
+    except FileNotFoundError as fe:
+        file_not_found(file_path, fe)
     return record_exists
 
 
@@ -537,8 +537,8 @@ def append_csv(file_path, append_data, record_type):
             print(
                 f"{Fore.GREEN}Success! Added {record_type} to database!\n{Style.RESET}"
             )
-    except FileNotFoundError:
-        file_not_found(file_path)
+    except FileNotFoundError as fe:
+        file_not_found(file_path, fe)
     except Exception as e:
         general_exception(
             "An error occurred while trying to append the selected CSV", e
@@ -595,8 +595,8 @@ def delete_csv_row(csv_path, selected_record):
             file.write(",".join(header) + "\n")
             csvwriter = csv.writer(file)
             csvwriter.writerows(transfer_rows)
-    except FileNotFoundError:
-        file_not_found(csv_path)
+    except FileNotFoundError as fe:
+        file_not_found(csv_path, fe)
     except Exception as e:
         general_exception(
             "An error occurred while trying to delete a row from a CSV", e
@@ -652,8 +652,8 @@ def check_workout_date(workout_date, result_path):
                 if workout_date in row[0]:
                     i += 1
         return i
-    except FileNotFoundError:
-        file_not_found(result_path)
+    except FileNotFoundError as fe:
+        file_not_found(result_path, fe)
     except Exception as e:
         general_exception("An error occurred while checking the workout date", e)
 
@@ -670,8 +670,8 @@ def get_pb_exercises(workout_exercises):
                         pb_weight = row[1]
                         pb_exercises[completed_exercise] = pb_weight
         return pb_exercises
-    except FileNotFoundError:
-        file_not_found(el_file_path)
+    except FileNotFoundError as fe:
+        file_not_found(el_file_path, fe)
     except Exception as e:
         general_exception(
             "An error occurred getting the PB value from the exercise database", e
@@ -756,8 +756,8 @@ def update_exercise_pb(new_pb_exercises, exercises_path, el_header):
             csvwriter.writerows(transfer_rows)
         clear_console()
         print(f"{Fore.GREEN}Success! Updated exercise database with new PB's!")
-    except FileNotFoundError:
-        file_not_found(exercises_path)
+    except FileNotFoundError as fe:
+        file_not_found(exercises_path, fe)
     except Exception as e:
         general_exception("An error occurred while updating the exercise PB", e)
 
@@ -817,8 +817,8 @@ def get_exercise_data(template_path, selected_template):
                                 )
                         exercise_entries[exercise_key] = working_weight
         return exercise_entries
-    except FileNotFoundError:
-        file_not_found(template_path)
+    except FileNotFoundError as fe:
+        file_not_found(template_path, fe)
     except Exception as e:
         general_exception("An error occurred while getting the exercise data", e)
 
