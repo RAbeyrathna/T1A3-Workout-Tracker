@@ -5,6 +5,7 @@ A terminal application for the Coder Academy T1A3 assignment.
 This application is a Workout Tracker that allows the user to create workout templates, custom exercises and to track their exercise personal bests all within the terminal.
 
 [Github Repository](https://github.com/RAbeyrathna/T1A3-Workout-Tracker)
+
 [Trello Board](https://trello.com/b/OByLchKI/t1a3-workout-tracker)
 <!-- [Video Presentation]() -->
 
