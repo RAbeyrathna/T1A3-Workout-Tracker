@@ -1,13 +1,16 @@
 #!/bin/bash
 
-if python3 --version &>/dev/null; then
-    python3 -m venv .venv
-    source .venv/bin/activate
+source setup.sh
 
-    pip3 install -r ./requirements.txt
-
-    python3 main.py
+if check_python; then
+    if start_venv; then
+        echo "Checks have all passed. Starting application.."
+        python3 main.py
+    else
+        echo "Error: Failed to set up virtual environment and install dependencies."
+        exit 2
+    fi
 else
-    echo "Error: Python was not detected. This application used Python to run. Please install Python 3 before running this application"
+    echo "Error: Python 3 is required to run this application. Please install Python 3 and try again."
     exit 1
 fi
