@@ -72,7 +72,7 @@ The workout logs are stored in an external CSV file.
 
 ## Code Style Guide
 
-The code was written referencing the [PEP 8 Style Guide for Python](https://peps.python.org/pep-0008/).
+The code was written referencing the [PEP 8 Style Guide for Python](https://peps.python.org/pep-0008/) using the [Black Code Style and formatter](https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html) as it is PEP8 compliant.
 
 ## Implementation Plan
 
@@ -104,6 +104,8 @@ I used Trello to manage my overall project and tasks I had to do, as well as Not
 
 ![Notion Page](docs/Screenshots/Project/notion-screenshot.png "Notion Page")
 
+## Help Documentation
+
 ## References
 
 Zlatanidis, D. (2023) Colored, PyPI. Available at: https://pypi.org/project/colored/ (Accessed: 11 December 2023).
@@ -119,5 +121,3 @@ Python eval() (no date) Programiz. Available at: https://www.programiz.com/pytho
 adityaprasad1308 (2021) Python - read CSV columns into list, GeeksforGeeks. Available at: https://www.geeksforgeeks.org/python-read-csv-columns-into-list/ (Accessed: 14 December 2023).
 
 Python enhancement proposals (2023) PEP 8 – Style Guide for Python Code. Available at: https://peps.python.org/pep-0008/ (Accessed: 19 December 2023).
-
-## Help Documentation
