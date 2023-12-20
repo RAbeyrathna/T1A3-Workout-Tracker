@@ -123,7 +123,6 @@ def general_menu(menu_name, options_list):
                 break
             else:
                 selected_option = list(options_list.keys())[user_selection - 1]
-                # Runs the selected option as a command
                 try:
                     eval(options_list[selected_option])
                 except Exception as e:
@@ -235,7 +234,6 @@ def pw_display(csv_reader, selected_record):
         for row in csv_reader:
             (workout_date, template_used, completed_exercises) = row
             if row[0] == selected_record:
-                # Convert string dictionary into proper dictionary
                 try:
                     exercises_dict = eval(completed_exercises)
                 except Exception as e:
@@ -472,19 +470,15 @@ def get_append_data(record_name, file_path):
 # Checks if the record holds any data to be appended
 def check_record_empty(file_path, append_data):
     is_empty = True
-    # Checks at least 1 exercise has been added to Workout Templates
     if file_path == wt_file_path:
         template_name = list(append_data.keys())[0]
         is_empty = not (bool(append_data[template_name]))
-
     elif file_path == el_file_path:
-        # Checks if new PB exists when creating workout entries
         if type(append_data) == dict:
             if len(append_data) == 0:
                 is_empty = True
             else:
                 is_empty = False
-        # Checks PB Entry exists and is an integer for Exercise entries
         else:
             try:
                 float(append_data[1])
