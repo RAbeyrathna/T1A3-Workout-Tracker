@@ -1,5 +1,6 @@
 import os
 import csv
+
 from colored import Fore, Back, Style
 from prettytable import PrettyTable
 from datetime import datetime

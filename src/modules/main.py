@@ -1,4 +1,5 @@
 from colored import Fore, Back, Style
+
 from workout_functions import clear_console, general_menu, check_csv
 from workout_functions import (
     main_options_list,
