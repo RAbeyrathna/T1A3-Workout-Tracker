@@ -4,7 +4,7 @@ from colored import Fore, Back, Style
 from prettytable import PrettyTable
 from datetime import datetime
 
-# Variables
+# Menu Option Variables to access functions
 
 pw_file_path = "./data/previous_workouts.csv"
 pw_header = "workout_date,template_used,completed_exercises\n"
@@ -17,7 +17,6 @@ wt_header = "template_name,exercises\n"
 
 menu_list = []
 
-# Menu Option Variables to access features
 
 # Main Menu Options
 main_options_list = {
@@ -66,7 +65,9 @@ def clear_console():
                 # For Unix systems
                 os.system("clear")
         except Exception as e:
-            print(f"{Fore.red}Error: Could not clear console. {Style.reset}{e}")
+            print(
+                f"{Fore.red}Error: Could not clear console. {Style.reset}{e}"
+            )
         i += 1
 
 
@@ -85,7 +86,9 @@ def check_csv(file_path, header):
 
 def file_not_found(file_path, e):
     clear_console()
-    print(f"{Fore.red}Error: Could not find CSV file {file_path}: {Style.reset}{e}")
+    print(
+        f"{Fore.red}Error: Could not find CSV file {file_path}: {Style.reset}{e}"
+    )
 
 
 # General menu function used to navigate through main menus of the application
@@ -100,9 +103,13 @@ def general_menu(menu_name, options_list):
         for index, option in enumerate(options_list):
             print(f"{Fore.blue}[ {index + 1} ]{option}")
         if menu_name == "Main":
-            print(f"{Fore.RED}[ {total_options} ] Exit Application{Style.reset}")
+            print(
+                f"{Fore.RED}[ {total_options} ] Exit Application{Style.reset}"
+            )
         else:
-            print(f"{Fore.YELLOW}[ {total_options} ] Return to Main Menu{Style.reset}")
+            print(
+                f"{Fore.YELLOW}[ {total_options} ] Return to Main Menu{Style.reset}"
+            )
         user_selection = input(
             f"{Fore.green}\nEnter the function you would like to enter: {Style.reset}\n"
         )
@@ -160,7 +167,9 @@ def display_menu_list(menu_name, return_value, function):
         )
         for index, record in enumerate(menu_list):
             print(f"[ {index + 1} ] {record}")
-        print(f"{Fore.YELLOW}[ {return_value} ] Return to previous menu{Style.reset}")
+        print(
+            f"{Fore.YELLOW}[ {return_value} ] Return to previous menu{Style.reset}"
+        )
         if menu_name == "Entry":
             user_selection = input(
                 f"{Fore.green}\nPlease enter the index of the template you would like to use: {Style.reset}\n"
@@ -185,7 +194,9 @@ def display_menu_list(menu_name, return_value, function):
             )
         except IndexError as ie:
             clear_console()
-            print(f"{Fore.red}Error: An index error occurred:{Style.reset}{ie}")
+            print(
+                f"{Fore.red}Error: An index error occurred:{Style.reset}{ie}"
+            )
         except Exception as e:
             general_exception("An error occured during selection", e)
 
@@ -232,7 +243,10 @@ def pw_display(csv_reader, selected_record):
                         e,
                     )
                 workout_entry_table = PrettyTable()
-                workout_entry_table.field_names = ["Exercise", "Recorded Weight (kg)"]
+                workout_entry_table.field_names = [
+                    "Exercise",
+                    "Recorded Weight (kg)",
+                ]
                 for exercise, weight in exercises_dict.items():
                     workout_entry_table.add_row([exercise, weight])
                 print(
@@ -261,7 +275,10 @@ def wt_display(csv_reader, selected_record):
             if row[0] == selected_record:
                 exercises_dict = eval(exercise_list)
                 template_table = PrettyTable()
-                template_table.field_names = ["Exercise", "Last Working Weight (kg)"]
+                template_table.field_names = [
+                    "Exercise",
+                    "Last Working Weight (kg)",
+                ]
                 for exercise, weight in exercises_dict.items():
                     template_table.add_row([exercise, weight])
                 print(
@@ -273,7 +290,9 @@ def wt_display(csv_reader, selected_record):
                 )
                 clear_console()
     except Exception as e:
-        general_exception("An error occurred while displaying the workout templates", e)
+        general_exception(
+            "An error occurred while displaying the workout templates", e
+        )
 
 
 # Function to display all exercises in Exercise Database
@@ -302,7 +321,9 @@ def el_display(csv_path):
     except FileNotFoundError as fe:
         file_not_found(csv_path, fe)
     except Exception as e:
-        general_exception("An error occurred while displaying the exercise database", e)
+        general_exception(
+            "An error occurred while displaying the exercise database", e
+        )
 
 
 # Function to get name for new record to be created (Exercise and Template features)
@@ -372,7 +393,9 @@ def get_current_pb():
             current_pb = float(current_pb)
             valid_name = True
         except ValueError:
-            current_pb = input(f"{Fore.RED}Error: PB must be a digit:{Style.reset}\n")
+            current_pb = input(
+                f"{Fore.RED}Error: PB must be a digit:{Style.reset}\n"
+            )
     return current_pb
 
 
@@ -395,7 +418,9 @@ def get_append_data(record_name, file_path):
                 else:
                     exercise_key = exercise_key.title()
 
-                exercise_exists = check_record_exists(el_file_path, exercise_key)
+                exercise_exists = check_record_exists(
+                    el_file_path, exercise_key
+                )
                 if exercise_exists:
                     exercise_list[exercise_key] = 0
                     clear_console()
@@ -417,7 +442,9 @@ def get_append_data(record_name, file_path):
                             )
                             if not exercise_empty:
                                 append_csv(
-                                    el_file_path, append_exercise_data, "exercise"
+                                    el_file_path,
+                                    append_exercise_data,
+                                    "exercise",
                                 )
                                 exercise_list[exercise_key] = 0
                                 add_exercise_loop = False
@@ -462,7 +489,9 @@ def check_record_empty(file_path, append_data):
                 float(append_data[1])
                 is_empty = False
             except (ValueError, TypeError):
-                print(f"{Fore.RED}Error: PB Entry is not an integer{Style.reset}")
+                print(
+                    f"{Fore.RED}Error: PB Entry is not an integer{Style.reset}"
+                )
             except IndexError:
                 print(f"{Fore.RED}Error: PB entry does not exist{Style.reset}")
     return is_empty
@@ -487,7 +516,10 @@ def confirm_record(file_path, record_name, append_data):
             )
             print(f"{Fore.YELLOW}Template Name: {record_name}{Style.reset}\n")
             template_table = PrettyTable()
-            template_table.field_names = ["Exercise", "Last Working Weight (kg)"]
+            template_table.field_names = [
+                "Exercise",
+                "Last Working Weight (kg)",
+            ]
             for routine, exercises in append_data.items():
                 for exercise, weight in exercises.items():
                     template_table.add_row([exercise, weight])
@@ -564,13 +596,17 @@ def create_submenu(record_type, file_path):
             if create_record:
                 append_csv(file_path, append_data, record_type)
             else:
-                print(f"{Fore.RED}User cancelled: Aborting function...{Style.RESET}")
+                print(
+                    f"{Fore.RED}User cancelled: Aborting function...{Style.RESET}"
+                )
         else:
             print(
                 f"{Fore.RED}Error: That {record_type} is empty. Aborting creation..{Style.RESET}\n"
             )
     except Exception as e:
-        general_exception("An error occurred while trying to create a record", e)
+        general_exception(
+            "An error occurred while trying to create a record", e
+        )
 
 
 # Updates Workout Template with last workout weight values
@@ -620,7 +656,9 @@ def create_workout_entry(menu_name, template_path, result_path):
         )
         if create_entry:
             append_csv(result_path, workout_entry, "Workout Entry")
-            upd_template_weight(selected_template, exercise_data, template_path)
+            upd_template_weight(
+                selected_template, exercise_data, template_path
+            )
             new_pb_exercises = check_new_pb(exercise_data)
             empty_pb_list = check_record_empty(el_file_path, new_pb_exercises)
             if not empty_pb_list:
@@ -636,9 +674,13 @@ def create_workout_entry(menu_name, template_path, result_path):
                 )
         else:
             clear_console()
-            print(f"{Fore.red}User cancelled: Aborting Workout Entry..{Style.reset}")
+            print(
+                f"{Fore.red}User cancelled: Aborting Workout Entry..{Style.reset}"
+            )
     except Exception as e:
-        general_exception("An error occurred while creating a workout entry", e)
+        general_exception(
+            "An error occurred while creating a workout entry", e
+        )
 
 
 # Function to check if a workout entry exists under the workout date
@@ -655,7 +697,9 @@ def check_workout_date(workout_date, result_path):
     except FileNotFoundError as fe:
         file_not_found(result_path, fe)
     except Exception as e:
-        general_exception("An error occurred while checking the workout date", e)
+        general_exception(
+            "An error occurred while checking the workout date", e
+        )
 
 
 def get_pb_exercises(workout_exercises):
@@ -674,7 +718,8 @@ def get_pb_exercises(workout_exercises):
         file_not_found(el_file_path, fe)
     except Exception as e:
         general_exception(
-            "An error occurred getting the PB value from the exercise database", e
+            "An error occurred getting the PB value from the exercise database",
+            e,
         )
 
 
@@ -726,7 +771,9 @@ def compare_pb(exercise_data, new_pb_exercises):
             for old_pb_exercise in old_pb_exercises:
                 old_pb_weight = old_pb_exercises[old_pb_exercise]
                 if old_pb_exercise == new_pb_exercise:
-                    pb_table.add_row([new_pb_exercise, new_pb_weight, old_pb_weight])
+                    pb_table.add_row(
+                        [new_pb_exercise, new_pb_weight, old_pb_weight]
+                    )
                 else:
                     pass
         print(pb_table)
@@ -759,7 +806,9 @@ def update_exercise_pb(new_pb_exercises, exercises_path, el_header):
     except FileNotFoundError as fe:
         file_not_found(exercises_path, fe)
     except Exception as e:
-        general_exception("An error occurred while updating the exercise PB", e)
+        general_exception(
+            "An error occurred while updating the exercise PB", e
+        )
 
 
 # Function to display workout and and confirm if it should be saved
@@ -769,7 +818,9 @@ def confirm_workout_entry(workout_date, selected_template, exercise_data):
         print(
             f"{Fore.BLUE}Would you like to save the following Workout Entry?{Style.RESET}\n"
         )
-        print(f"{Fore.CYAN}Entry Date: {Fore.YELLOW}{workout_date}{Style.reset}\n")
+        print(
+            f"{Fore.CYAN}Entry Date: {Fore.YELLOW}{workout_date}{Style.reset}\n"
+        )
         print(
             f"{Fore.CYAN}Template Used: {Fore.YELLOW}{selected_template}{Style.reset}\n"
         )
@@ -781,7 +832,9 @@ def confirm_workout_entry(workout_date, selected_template, exercise_data):
         create_record = create_record_loop()
         return create_record
     except Exception as e:
-        general_exception("An error occurred while confirming the workout entry", e)
+        general_exception(
+            "An error occurred while confirming the workout entry", e
+        )
 
 
 # Function for create_workout_entry to loop through exercises in selected template
@@ -820,7 +873,9 @@ def get_exercise_data(template_path, selected_template):
     except FileNotFoundError as fe:
         file_not_found(template_path, fe)
     except Exception as e:
-        general_exception("An error occurred while getting the exercise data", e)
+        general_exception(
+            "An error occurred while getting the exercise data", e
+        )
 
 
 # Function used for features which have a delete sub-menu
@@ -847,10 +902,14 @@ def delete_submenu(menu_name, csv_path, header):
                 delete_loop = False
             elif user_confirmation == "NO":
                 clear_console()
-                print(f"{Fore.red}User cancelled. Aborting deletion..{Style.reset}")
+                print(
+                    f"{Fore.red}User cancelled. Aborting deletion..{Style.reset}"
+                )
                 delete_loop = False
             else:
                 clear_console()
                 print(f"{Fore.RED}Error: Invalid input.{Style.reset}\n")
     except Exception as e:
-        general_exception("An error occurred while confirming deletion of record", e)
+        general_exception(
+            "An error occurred while confirming deletion of record", e
+        )
