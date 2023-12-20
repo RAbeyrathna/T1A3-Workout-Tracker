@@ -77,6 +77,15 @@ The workout logs are stored in an external CSV file.
 
 The code was written referencing the [PEP 8 Style Guide for Python](https://peps.python.org/pep-0008/) using the [Black Code Style and formatter](https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html) as it is PEP8 compliant.
 
+The styles followed include:
+
+- Lower case variables with underscores (example_variable)
+- 79 character line limit
+- 4 Space indentation
+- Blank lines to seperate functions
+- Imports seperated by lines and grouped
+- Use of double quotes consistently
+
 ## Implementation Plan
 
 I used Trello to manage my overall project and tasks I had to do, as well as Notion to manage my day to day tasks and help check off things I needed to do in the moment or wanted to delegate to another day.
@@ -93,7 +102,7 @@ I used Trello to manage my overall project and tasks I had to do, as well as Not
 
 ![Delete Template Task](docs/Screenshots/Project/delete-template-task.png "Delete Template Task")
 
-![View Workout History Task](docs/Screenshots/Project/view-workouts-history-task.png "View Workout History Task")
+![View Workout Templates Task](docs/Screenshots/Project/view-workout-templates-task.png "View Workout Templates Task")
 
 #### Error Checking
 
@@ -105,7 +114,11 @@ I used Trello to manage my overall project and tasks I had to do, as well as Not
 
 #### Notion Management
 
-![Notion Page](docs/Screenshots/Project/notion-screenshot.png "Notion Page")
+![Notion Page 1](docs/Screenshots/Project/notion-screenshot-1.png "Notion Page 1")
+
+![Notion Page 2](docs/Screenshots/Project/notion-screenshot-2.png "Notion Page 2")
+
+![Notion Page 3](docs/Screenshots/Project/notion-screenshot-3.png "Notion Page 3")
 
 ## Help Documentation
 
