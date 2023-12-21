@@ -149,6 +149,12 @@ To install this app, download the **src** folder containing the source code of t
 
 Run the **run.sh** bash script which will set up a virtual environment and start the application for you automatically.
 
+> If you have trouble running the script. Try running the following command to make the script executable
+
+```bash
+chmod +x run.sh 
+```
+
 ---
 
 ### Using the Application
@@ -160,6 +166,7 @@ Once the application has been started, you'll be greeted by the main menu of the
 - Enter Workout Entry Menu
 - Enter Workout Templates Menu
 - View Exercise List Database
+- Exit Application
 
 Each of these options takes you to a seperate menu to *create*, *view* or *delete* items from their menu.
 
