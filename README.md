@@ -170,9 +170,9 @@ Once the application has been started, you'll be greeted by the main menu of the
 
 Each of these options takes you to a seperate menu to *create*, *view* or *delete* items from their menu.
 
-If you decided to start from scratch and deleted any of the data files, you will have to create exercise and workout template records in order to utilize the *Workout Entry Menu*.
-
 ![Application Main Menu](docs/Screenshots/Application/main_menu.png "Application Main Menu")
+
+If you decided to start from scratch and deleted any of the data files, you will have to create exercise and workout template records in order to utilize the *Workout Entry Menu*.
 
 ---
 
@@ -188,9 +188,9 @@ You will then be prompted to add your current PB weight for that exercise. This 
 
 A final confirmation will be shown on the screen along with the details you input. If it looks correct, you can type **YES** to save it or **NO** to abandon it. 
 
-*Please note the **YES** and **NO** inputs are **case sensitive** throughout the application*
-
 ![Application Create Exercise](docs/Screenshots/Application/create_exercise.png "Application Create Exercise")
+
+*Please note the **YES** and **NO** inputs are **case sensitive** throughout the application*
 
 ---
 
@@ -200,9 +200,13 @@ You can create your own Workout template by entering the *Create a New Workout T
 
 You will then be prompted to type in the name of the exercises you want to add to this template. Ideally, you will enter the name of an exercise that already exists in the exercise database and it will automatically be added.
 
+![Application Create Workout Template 1](docs/Screenshots/Application/create_template_1.png "Application Workout Template 1")
+
 In the case that you add an exercise that does not exist in the database, the application will give a warning that the exercise does not exist. You will then have the option to create the exercise and add it to the exercise database before continuing with the template creation.
 
 If you opt to creating an exercise, you will have to give it a current PB value so it can be initialised in the database.
+
+![Application Create Workout Template 2](docs/Screenshots/Application/create_template_2.png "Application Workout Template 2")
 
 When adding the exercises, make sure to type the name exactly as it would appear in the database or the application will not recognise it.
 
@@ -216,9 +220,6 @@ You will be shown the final template in a table format and the last working weig
 
 You will be given a confirmation prompt to create the template. Type **YES** to create the template or **NO** to cancel.
 
-![Application Create Workout Template 1](docs/Screenshots/Application/create_template_1.png "Application Workout Template 1")
-
-![Application Create Workout Template 2](docs/Screenshots/Application/create_template_2.png "Application Workout Template 2")
 
 ![Application Create Workout Template 3](docs/Screenshots/Application/create_template_3.png "Application Workout Template 3")
 
@@ -260,13 +261,13 @@ The selected log or template will then be displayed in table format with all of 
 
 For Workout templates, a table will be shown with the exercises contained and the *last working weight* that was recorded using that template. The last working weight value gets updated every time a workout is completed using that template.
 
-For Workout Logs, a table will be shown with the exercises completed for that log and the recorded weight for that workout entry.
-
-Press enter or enter any input to leave the menu once you are done.
-
 ![Application View Template](docs/Screenshots/Application/view_template.png "Application View Template")
 
+For Workout Logs, a table will be shown with the exercises completed for that log and the recorded weight for that workout entry.
+
 ![Application View Log](docs/Screenshots/Application/view_workout_log.png "Application View Log")
+
+Press enter or enter any input to leave the menu once you are done.
 
 ---
 
@@ -284,9 +285,9 @@ The deletion function works in the same way for Exercise, Templates and Workout 
 
 All of the records will be displayed with an index next to them. Type in the number of the record you would like to delete and press enter.
 
-You will be given a confirmation prompt to delete the selected record. Type **YES** to continue with deleting it or **NO** to cancel.
-
 ![Application Delete Exercise 1](docs/Screenshots/Application/delete_exercise_1.png "Application Delete Exercise 1")
+
+You will be given a confirmation prompt to delete the selected record. Type **YES** to continue with deleting it or **NO** to cancel.
 
 ![Application Delete Exercise 2](docs/Screenshots/Application/delete_exercise_2.png "Application Delete Exercise 2")
 
