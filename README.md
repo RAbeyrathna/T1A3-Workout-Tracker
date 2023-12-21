@@ -7,7 +7,8 @@ This application is a Workout Tracker that allows the user to create workout tem
 [Github Repository](https://github.com/RAbeyrathna/T1A3-Workout-Tracker)
 
 [Trello Board](https://trello.com/b/OByLchKI/t1a3-workout-tracker)
-<!-- [Video Presentation]() -->
+
+[Video Presentation](https://youtu.be/Gjs1tvBufeA)
 
 ## Table of Contents
 
@@ -70,8 +71,6 @@ The user can view any previous workout logs they completed (they will be saved u
 #### Deleting Previous Workout Entries
 
 The user can delete any previous workout entries similar to the above features. They can select the index of the entry they would like to delete and are given a confirmation prompt before the entry is permanently deleted.
-
-The workout logs are stored in an external CSV file.
 
 ## Code Style Guide
 
@@ -228,17 +227,19 @@ The app will then iterate through each exercise in the selected template, showin
 
 Input the highest weight that you achieved for each exercise for that workout.
 
+![Application Create Workout Entry 1](docs/Screenshots/Application/create_entry_1.png "Application Workout Entry 1")
+
 Once you've entered the data for each exercise, the application will show a table with the Workout Entry data. If it looks correct, you can type **YES** to save it or **NO** to cancel.
 
 If the user selected **YES**, the workout will be saved to the CSV and can be viewed using the *View all Workout Logs* menu. The workout template will also be updated with the new working weight values from the exercises completed in that workout.
 
+![Application Create Workout Entry 2](docs/Screenshots/Application/create_entry_2.png "Application Workout Entry 2")
+
 If a new PB was acheived, the application will show a table with all the exercises which have a new PB along with the old recorded PB weight in the exercise database.
 
+![New PB](docs/Screenshots/Application/new_pb.png "New PB")
+
 Enter **YES** if you want this data to be updated in the exercise database or **NO** if you don't. This does **not** effect the workout log at all as it has already been saved.
-
-![Application Create Workout Entry 1](docs/Screenshots/Application/create_entry_1.png "Application Workout Entry 1")
-
-![Application Create Workout Entry 2](docs/Screenshots/Application/create_entry_2.png "Application Workout Entry 2")
 
 ---
 

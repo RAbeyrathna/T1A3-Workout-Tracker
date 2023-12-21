@@ -3,7 +3,7 @@
 check_python() {
     python_version=$(python3 --version 2>&1)
     if [[ $python_version == *"3"* ]]; then
-        return 0  # Python 3 is installed
+        return 0
     else
         return 1
     fi
