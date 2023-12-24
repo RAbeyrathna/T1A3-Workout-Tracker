@@ -19,6 +19,7 @@ This application is a Workout Tracker that allows the user to create workout tem
 - [Code Style Guide](#code-style-guide)
 - [Implementation Plan](#implementation-plan)
   - [Project Management Screenshots](#project-management-screenshots)
+- [Testing](#testing)
 - [Help Documentation](#help-documentation)
 - [References](#references)
 
@@ -118,6 +119,14 @@ I used Trello to manage my overall project and tasks I had to do, as well as Not
 ![Notion Page 2](docs/Screenshots/Project/notion-screenshot-2.png "Notion Page 2")
 
 ![Notion Page 3](docs/Screenshots/Project/notion-screenshot-3.png "Notion Page 3")
+
+## Manual Testing
+
+Manual testing was completed to ensure the application worked as intended. A screenshot of the result can be found below.
+
+![Manual Testing](docs/Screenshots/manual_testing.png "Manual Testing")
+
+Otherwise, the PDF document with the results can be found in the *docs* folder of the repository.
 
 ## Help Documentation
 
