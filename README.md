@@ -4,6 +4,8 @@ A terminal application for the Coder Academy T1A3 assignment.
 
 This application is a Workout Tracker that allows the user to create workout templates, custom exercises and to track their exercise personal bests all within the terminal.
 
+Please refer to the [Help Documentation](#help-documentation) section on instructions to install the application.
+
 [Github Repository](https://github.com/RAbeyrathna/T1A3-Workout-Tracker)
 
 [Trello Board](https://trello.com/b/OByLchKI/t1a3-workout-tracker)
@@ -138,7 +140,7 @@ Please create a seperate terminal window before starting the application if you 
 
 For testing, the application comes with pre-exisiting data. This data includes a set of exercises in the database, a few example workout logs and pre-bundled workout templates.
 
-If you do not wish to make use of these and wish to start entirely from scratch, you can delete the CSV files in the **data** folder. I would recommned keeping the *exercises.csv* at the very least to make using the app less tedious.
+If you do not wish to make use of these and wish to start entirely from scratch, you can delete the CSV files in the **data** folder. I would recommend keeping the *exercises.csv* at the very least to make using the app less tedious.
 
 The application has **not** been tested on Windows systems but should technically work given Python 3 is installed.
 
